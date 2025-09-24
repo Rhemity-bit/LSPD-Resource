@@ -3,1703 +3,2205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Santos Police Department</title>
+    <title>San Andreas Police Force</title>
     <style>
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #000000;
-            color: #e0e0e0;
+            background-color: #000;
+            color: #fff;
             line-height: 1.6;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.95)), url('https://placehold.co/1920x1080/000000/0a2b66?text=Los+Santos+Police+Department');
-            background-attachment: fixed;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
         .container {
+            width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
+        /* Header Styles */
         header {
-            background-color: #000000;
-            color: #0a2b66;
-            padding: 1.5rem 0;
-            border-bottom: 5px solid #0a2b66;
-            box-shadow: 0 4px 20px rgba(10, 43, 102, 0.4);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px 0;
+            border-bottom: 3px solid #1e90ff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow: visible;
         }
-        .header-content {
+
+        header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 6px;
+            pointer-events: none;
+            background: linear-gradient(90deg, transparent 0%, #1e90ff 50%, transparent 100%);
+            opacity: 0.7;
+            filter: blur(4px);
+            animation: blueLinePulse 3.5s linear infinite;
+        }
+        .logo-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
         .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 25px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-        .logo:hover {
-            transform: scale(1.1);
-            filter: brightness(1.3);
-        }
-        .logo-img {
-            width: 110px;
-            height: 110px;
-            border: 5px solid #0a2b66;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(10, 43, 102, 0.7);
-            background-color: #000000;
-            overflow: hidden;
-            position: relative;
-            transition: all 0.4s ease;
-        }
-        .logo-img::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            border: 4px solid #0a2b66;
-            border-radius: 50%;
-            animation: pulse 2.5s infinite ease-in-out;
             opacity: 0;
-            z-index: 0;
+            animation: fadeInUp 0.8s forwards;
         }
-        .logo-img:hover::before {
-            transform: scale(1.25);
-            opacity: 0.7;
+        .logo img {
+            height: 120px;
+            margin-right: 15px;
         }
-        @keyframes pulse {
-            0% {
-                transform: scale(0.9);
-                opacity: 0.3;
-            }
-            50% {
-                transform: scale(1.15);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(0.9);
-                opacity: 0.3;
-            }
+        .logo span {
+            color: #1e90ff;
         }
-        .logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 10px;
-            transition: transform 0.6s ease;
-            z-index: 1;
+        /* .logo-switch, .logo-sa, .logo-pf, and logoSwitchAnim removed as all words are now visible at once */
+        .logo-flash-red {
+            animation: policeFlashRed 1.2s infinite;
         }
-        .logo-img:hover img {
-            transform: rotate(12deg) scale(1.2);
+        .logo-flash-blue {
+            animation: policeFlashBlue 1.2s infinite;
         }
-        .logo-text {
-            font-size: 2.6rem;
-            font-weight: bold;
-            color: #0a2b66;
-            text-shadow: 3px 3px 12px rgba(10, 43, 102, 0.6);
-            position: relative;
-            transition: all 0.3s ease;
+
+        @keyframes policeFlashRed {
+            0%, 100% { color: #ff003c; text-shadow: 0 0 12px #ff003c, 0 0 24px #ff003c; }
+            50% { color: #fff; text-shadow: none; }
         }
-        .logo-text::after {
-            content: '';
-            position: absolute;
-            bottom: -7px;
-            left: 0;
-            width: 0;
-            height: 4px;
-            background-color: #0a2b66;
-            transition: width 0.6s ease;
+        @keyframes policeFlashBlue {
+            0%, 100% { color: #1e90ff; text-shadow: 0 0 12px #1e90ff, 0 0 24px #1e90ff; }
+            50% { color: #fff; text-shadow: none; }
         }
-        .logo:hover .logo-text::after {
-            width: 100%;
-        }
-        .tagline {
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-top: 6px;
-            color: #0a2b66;
-            letter-spacing: 1.5px;
-            opacity: 0.9;
-            transition: all 0.3s ease;
-        }
-        .logo:hover .tagline {
-            opacity: 1;
-            transform: translateY(-2px);
-        }
-        nav {
-            background-color: #0a0a0a;
-            padding: 0.7rem 0;
-            border-bottom: 3px solid #0a2b66;
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-links {
+        /* Navigation */
+        nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
-            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
         }
-        .nav-links li {
-            position: relative;
-            overflow: hidden;
+        nav ul li {
+            margin-left: 30px;
         }
-        .nav-links a {
-            color: #0a2b66;
+        nav ul li a {
+            color: #fff;
             text-decoration: none;
-            padding: 0.9rem 1.3rem;
-            border-radius: 8px;
-            transition: all 0.35s;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
             border: 1px solid transparent;
-            display: block;
             position: relative;
             overflow: hidden;
         }
-        .nav-links a::before {
+        nav ul li a::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(10, 43, 102, 0.3), transparent);
-            transition: left 0.6s;
-        }
-        .nav-links a:hover::before {
-            left: 100%;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            background-color: #0a2b66;
-            color: #ffffff;
-            border: 1px solid #0a2b66;
-            box-shadow: 0 0 15px rgba(10, 43, 102, 0.7);
-            transform: translateY(-4px);
-        }
-        main {
-            min-height: calc(100vh - 220px);
-            padding: 3rem 0;
-        }
-        .page {
-            display: none;
-            animation: fadeIn 0.9s ease-out;
-            opacity: 0;
-        }
-        .page.active {
-            display: block;
-            opacity: 1;
-        }
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0);
-            }
-        }
-        .page-content {
-            background: linear-gradient(145deg, #0a0a0a, #111111);
-            border: 2px solid #0a2b66;
-            border-radius: 12px;
-            padding: 3rem;
-            box-shadow: 
-                0 0 25px rgba(10, 43, 102, 0.3),
-                inset 0 0 15px rgba(10, 43, 102, 0.2);
-            backdrop-filter: blur(15px);
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.7s ease-out forwards;
-        }
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .page-title {
-            color: #0a2b66;
-            margin-bottom: 2rem;
-            padding-bottom: 0.7rem;
-            border-bottom: 4px solid #0a2b66;
-            font-size: 2.8rem;
-            text-shadow: 0 0 8px rgba(10, 43, 102, 0.5);
-            opacity: 0;
-            transform: translateX(-25px);
-            animation: slideInLeft 0.9s ease-out 0.2s forwards;
-        }
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        .section {
-            margin-bottom: 2.5rem;
-            padding: 2rem;
-            border: 1px solid #333;
-            border-radius: 10px;
-            background-color: rgba(30, 30, 30, 0.6);
-            opacity: 0;
-            transform: translateY(15px);
-            animation: fadeUp 0.7s ease-out 0.5s forwards;
-        }
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .sop-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.4rem;
-            border-bottom: 4px solid #0a2b66;
-            opacity: 0;
-            animation: fadeIn 0.9s ease-out 0.2s forwards;
-        }
-        .sop-title {
-            color: #0a2b66;
-            font-size: 2.3rem;
-            margin-bottom: 0.6rem;
-        }
-        .sop-subtitle {
-            color: #e0e0e0;
-            font-style: italic;
-            margin-bottom: 0.6rem;
-        }
-        .sop-intro {
-            margin-bottom: 2.5rem;
-            line-height: 1.9;
-            text-align: justify;
-            opacity: 0;
-            animation: fadeIn 0.9s ease-out 0.5s forwards;
-        }
-        .sop-section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            border-left: 6px solid #0a2b66;
-            background-color: rgba(10, 43, 102, 0.07);
-            opacity: 0;
-            transform: translateX(-15px);
-            transition: all 0.35s ease;
-        }
-        .sop-section:hover {
-            background-color: rgba(10, 43, 102, 0.14);
-            transform: translateX(0);
-            border-left-width: 8px;
-        }
-        .sop-section.animated {
-            animation: slideInLeft 0.7s ease-out forwards;
-        }
-        .sop-number {
-            color: #0a2b66;
-            font-weight: bold;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-        }
-        .sop-title {
-            color: #0a2b66;
-            font-weight: bold;
-            margin-bottom: 0.6rem;
-            font-size: 1.3rem;
-        }
-        .sop-content {
-            margin-left: 2.2rem;
-            line-height: 1.75;
-        }
-        .sop-content p {
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 0.3s forwards;
-        }
-        .sop-list {
-            margin: 1rem 0;
-            padding-left: 2rem;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 0.4s forwards;
-        }
-        .sop-list li {
-            margin-bottom: 0.7rem;
-        }
-        .sop-sublist {
-            list-style-type: circle;
-            margin: 0.7rem 0;
-            padding-left: 2rem;
-        }
-        .sop-code {
-            background-color: rgba(0, 0, 0, 0.55);
-            border: 1px solid #555;
-            padding: 1.4rem;
-            margin: 1.4rem 0;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            line-height: 1.7;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 0.5s forwards;
-        }
-        .sop-emphasis {
-            color: #0a2b66;
-            font-weight: bold;
-        }
-        .placeholder {
-            text-align: center;
-            color: #808080;
-            font-style: italic;
-            margin: 1.5rem 0;
-            padding: 2rem;
-            border: 2px dashed #555;
-            border-radius: 10px;
-        }
-        .placeholder h3 {
-            color: #0a2b66;
-            margin-bottom: 0.6rem;
-        }
-        .logo-bottom {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 3rem 0;
-            padding: 2.2rem;
-            border-top: 4px solid #0a2b66;
-            border-bottom: 4px solid #0a2b66;
-            opacity: 0;
-            animation: fadeIn 0.9s ease-out 0.7s forwards;
-        }
-        .logo-bottom-img {
-            width: 275px;
-            height: 275px;
-            border: 5px solid #0a2b66;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 30px rgba(10, 43, 102, 0.7);
-            background-color: #000000;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 1.5rem;
-            transition: all 0.4s ease;
-        }
-        .logo-bottom-img::before {
-            content: '';
-            position: absolute;
-            top: -25px;
-            left: -25px;
-            right: -25px;
-            bottom: -25px;
-            border: 5px solid #0a2b66;
-            border-radius: 50%;
-            animation: pulse 2.5s infinite ease-in-out;
-            opacity: 0;
-        }
-        .logo-bottom-img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 35px rgba(10, 43, 102, 0.9);
-        }
-        .logo-bottom-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 15px;
-            transition: transform 0.6s ease;
-        }
-        .logo-bottom-img:hover img {
-            transform: rotate(6deg) scale(1.15);
-        }
-        .logo-bottom-text {
-            color: #0a2b66;
-            font-size: 2rem;
-            font-weight: bold;
-            text-align: center;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 0.9s forwards;
-        }
-        .logo-bottom-tagline {
-            color: #e0e0e0;
-            font-style: italic;
-            text-align: center;
-            margin-top: 0.7rem;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 1s forwards;
-        }
-        .announcement {
-            background-color: rgba(10, 43, 102, 0.14);
-            border-left: 6px solid #0a2b66;
-            padding: 1.4rem;
-            margin: 1.4rem 0;
-            border-radius: 8px;
-            opacity: 0;
-            transform: translateX(-12px);
-            transition: all 0.35s ease;
-        }
-        .announcement:hover {
-            background-color: rgba(10, 43, 102, 0.2);
-            transform: translateX(0);
-            border-left-width: 9px;
-        }
-        .announcement.animated {
-            animation: slideInLeft 0.7s ease-out forwards;
-        }
-        .announcement-title {
-            color: #0a2b66;
-            font-weight: bold;
-            margin-bottom: 0.6rem;
-        }
-        .announcement-date {
-            color: #808080;
-            font-size: 1rem;
-            margin-bottom: 0.6rem;
-        }
-        .leadership-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin-top: 2.5rem;
-        }
-        .leader-card {
-            background-color: rgba(30, 30, 30, 0.75);
-            border: 1px solid #333;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.6s ease;
-            opacity: 0;
-            transform: translateY(25px);
-        }
-        .leader-card:nth-child(1) {
-            animation: cardReveal 0.9s ease-out 0.6s forwards;
-        }
-        .leader-card:nth-child(2) {
-            animation: cardReveal 0.9s ease-out 0.8s forwards;
-        }
-        .leader-card:nth-child(3) {
-            animation: cardReveal 0.9s ease-out 1s forwards;
-        }
-        .leader-card:nth-child(4) {
-            animation: cardReveal 0.9s ease-out 1.2s forwards;
-        }
-        .leader-card:nth-child(5) {
-            animation: cardReveal 0.9s ease-out 1.4s forwards;
-        }
-        .leader-card:nth-child(6) {
-            animation: cardReveal 0.9s ease-out 1.6s forwards;
-        }
-        @keyframes cardReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .leader-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(10, 43, 102, 0.4);
-            border-color: #0a2b66;
-        }
-        .leader-img {
-            width: 100%;
-            height: 350px;
-            background-color: #222;
-            border-bottom: 3px solid #0a2b66;
-            overflow: hidden;
-            position: relative;
-        }
-        .leader-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-        .leader-card:hover .leader-img img {
-            transform: scale(1.1);
-        }
-        .leader-info {
-            padding: 2rem;
-        }
-        .leader-position {
-            color: #0a2b66;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-bottom: 0.6rem;
-            position: relative;
-        }
-        .leader-position::after {
-            content: '';
-            position: absolute;
-            bottom: -7px;
+            bottom: 0;
             left: 0;
             width: 0;
-            height: 2.5px;
-            background-color: #0a2b66;
-            transition: width 0.6s ease;
+            height: 2px;
+            background-color: #1e90ff;
+            transition: width 0.3s ease;
         }
-        .leader-card:hover .leader-position::after {
-            width: 65%;
+        nav ul li a:hover::before {
+            width: 100%;
         }
-        .leader-name {
-            color: #e0e0e0;
-            font-size: 1.5rem;
-            margin-bottom: 0.7rem;
+        nav ul li a:hover {
+            border-color: #1e90ff;
+            background-color: rgba(30, 144, 255, 0.1);
         }
-        .leader-bio {
-            color: #c0c0c0;
-            line-height: 1.7;
-            font-size: 1.05rem;
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+            margin-top: 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .leader-contact {
-            margin-top: 1.4rem;
-            padding-top: 1.4rem;
-            border-top: 1px solid #444;
-            color: #a0a0a0;
-            font-size: 1rem;
-            opacity: 0.9;
-            transition: opacity 0.35s ease;
-        }
-        .leader-card:hover .leader-contact {
-            opacity: 1;
-        }
-        .vacant .leader-img::after {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('https://i.postimg.cc/htQLVt2V/pngtree-vacant-grunge-unoccupied-ink-vector-png-image-13965188.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            opacity: 0.6;
-            z-index: 1;
-        }
-        footer {
-            background-color: #000000;
-            color: #0a2b66;
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 4px solid #0a2b66;
-            font-size: 1rem;
-            box-shadow: 0 -4px 15px rgba(10, 43, 102, 0.3);
-            opacity: 0;
-            animation: fadeIn 0.9s ease-out 0.9s forwards;
-        }
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-        }
-        .footer-logo {
-            width: 120px;
-            height: 120px;
-            border: 5px solid #0a2b66;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 25px rgba(10, 43, 102, 0.7);
-            background-color: #000000;
-            overflow: hidden;
-            margin: 0 auto 14px;
-            transition: all 0.4s ease;
-        }
-        .footer-logo:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 30px rgba(10, 43, 102, 0.9);
-        }
-        .footer-logo img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            padding: 8px;
-            transition: transform 0.6s ease;
-        }
-        .footer-logo:hover img {
-            transform: rotate(12deg);
-        }
-        .emergency-banner {
-            background-color: #000000;
-            color: #0a2b66;
-            text-align: center;
-            padding: 1.1rem;
-            font-weight: bold;
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
-            border: 4px solid #0a2b66;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(10, 43, 102, 0.5);
-            opacity: 0;
-            animation: fadeIn 0.9s ease-out 0.4s forwards;
-        }
-        .news-banner {
-            background-color: rgba(10, 43, 102, 0.14);
-            border: 4px solid #0a2b66;
-            border-radius: 12px;
-            padding: 2.2rem;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            animation: slideUp 0.9s ease-out 0.5s forwards;
-        }
-        .news-title {
-            color: #0a2b66;
-            font-size: 2.3rem;
-            margin-bottom: 1.4rem;
-            text-align: center;
-            border-bottom: 4px solid #0a2b66;
-            padding-bottom: 0.7rem;
-        }
-        .news-item {
-            margin-bottom: 1.6rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px dashed #555;
-            opacity: 0;
-            transform: translateX(-12px);
-        }
-        .news-item:nth-child(1) {
-            animation: slideInLeft 0.7s ease-out 0.6s forwards;
-        }
-        .news-item:nth-child(2) {
-            animation: slideInLeft 0.7s ease-out 0.8s forwards;
-        }
-        .news-item:nth-child(3) {
-            animation: slideInLeft 0.7s ease-out 1s forwards;
-        }
-        .news-item:nth-child(4) {
-            animation: slideInLeft 0.7s ease-out 1.2s forwards;
-        }
-        .news-item:nth-child(5) {
-            animation: slideInLeft 0.7s ease-out 1.4s forwards;
-        }
-        .news-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.7rem;
-        }
-        .news-date {
-            color: #808080;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .news-content {
-            color: #e0e0e0;
-            line-height: 1.7;
-            font-style: italic;
-        }
-        .news-tag {
-            display: inline-block;
-            background-color: #0a2b66;
-            color: #ffffff;
-            padding: 0.4rem 0.8rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-right: 0.7rem;
-            opacity: 0;
-            animation: fadeIn 0.7s ease-out 0.3s forwards;
-        }
-        .pit-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin: 2.5rem 0;
-        }
-        .pit-step {
-            background-color: rgba(30, 30, 30, 0.7);
-            border: 1px solid #333;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.4s, box-shadow 0.4s;
-            position: relative;
-        }
-        .pit-step:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(10, 43, 102, 0.4);
-        }
-        .pit-step-img {
-            width: 100%;
-            height: 240px;
-            background-color: #222;
-            overflow: hidden;
-            position: relative;
-        }
-        .pit-step-img::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+            background: radial-gradient(circle, rgba(30, 144, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
             z-index: 1;
         }
-        .pit-step-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-        .pit-step:hover .pit-step-img img {
-            transform: scale(1.1);
-        }
-        .pit-step-info {
-            padding: 2rem;
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             position: relative;
             z-index: 2;
         }
-        .pit-step-number {
-            color: #0a2b66;
-            font-weight: bold;
-            font-size: 1.5rem;
-            margin-bottom: 0.7rem;
+        .hero-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.5s forwards;
+        }
+        .hero-logo img {
+            height: 500px;
+            width: auto;
+            filter: drop-shadow(0 0 60px #1e90ff) drop-shadow(0 0 30px #1e90ff);
+            animation: bluePulse 5s ease-in-out infinite;
+        }
+
+        .section-logo img {
+            filter: drop-shadow(0 0 60px #1e90ff) drop-shadow(0 0 30px #1e90ff);
+            animation: bluePulse 5s ease-in-out infinite;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #1e90ff;
+            padding-bottom: 15px;
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.7s forwards;
+        }
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.9s forwards;
+        }
+        /* Section Styles */
+        section {
+    padding: 160px 0 80px 0;
+    border-bottom: 1px solid #1e90ff;
+    position: relative;
+    overflow: visible;
+    display: none;
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+/* Police Lights Animation */
+.main-section {
+    position: relative;
+    overflow: hidden;
+}
+.main-section .police-lights {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: 1200px;
+    height: 48px;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    opacity: 0.45;
+}
+.main-section .police-lights .light {
+    width: 50vw;
+    max-width: 600px;
+    height: 100%;
+    border-radius: 0 0 48px 48px;
+    animation: policeLightFlash 2.2s infinite linear;
+}
+.main-section .police-lights .light.red {
+    background: linear-gradient(90deg, #ff003c 60%, transparent 100%);
+    animation-delay: 0s;
+}
+.main-section .police-lights .light.blue {
+    background: linear-gradient(270deg, #0099ff 60%, transparent 100%);
+    animation-delay: 1.1s;
+}
+@keyframes policeLightFlash {
+    0%, 100% { filter: brightness(0.7) blur(8px); opacity: 0.7; }
+    10% { filter: brightness(2.5) blur(2px); opacity: 1; }
+    20% { filter: brightness(0.7) blur(8px); opacity: 0.7; }
+    50% { filter: brightness(0.7) blur(8px); opacity: 0.7; }
+    60% { filter: brightness(2.5) blur(2px); opacity: 1; }
+    70% { filter: brightness(0.7) blur(8px); opacity: 0.7; }
+}
+        section.active {
+            display: block;
+            opacity: 1;
+        transform: translateY(0) scale(1);
+        }
+        section h2 {
+            font-size: 36px;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #1e90ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+        /* Content Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .card {
+            background-color: rgba(30, 30, 30, 0.8);
+            padding: 30px;
+        border-radius: 12px;
+        border: 2px solid #1e90ff;
+        box-shadow: 0 2px 16px 0 rgba(30,144,255,0.10);
+        transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s cubic-bezier(.4,0,.2,1), filter 0.25s;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s forwards;
+        }
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+        .card:nth-child(3) { animation-delay: 0.6s; }
+        .card:hover {
+            transform: translateY(-10px) scale(1.03) rotateZ(-1deg);
+            box-shadow: 0 16px 32px rgba(30, 144, 255, 0.25), 0 2px 16px 0 rgba(30,144,255,0.10);
+            filter: brightness(1.08) saturate(1.2);
+        }
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #1e90ff;
+            border-bottom: none;
+            padding-bottom: 0;
             display: flex;
             align-items: center;
-            gap: 0.7rem;
         }
-        .pit-step-number::before {
-            content: '';
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #0a2b66;
-            display: inline-block;
+        .card h3 img {
+            height: 24px;
+            margin-right: 10px;
         }
-        .pit-step-title {
-            color: #e0e0e0;
-            font-size: 1.6rem;
-            margin-bottom: 0.7rem;
-        }
-        .pit-step-description {
-            color: #c0c0c0;
-            line-height: 1.7;
-            font-size: 1.05rem;
-        }
-        .pit-animation {
-            text-align: center;
-            margin: 4rem 0;
-            padding: 3rem;
-            border: 4px solid #0a2b66;
-            border-radius: 12px;
-            background-color: rgba(10, 43, 102, 0.08);
-        }
-        .pit-animation-title {
-            color: #0a2b66;
-            font-size: 2.3rem;
-            margin-bottom: 1.4rem;
-            text-align: center;
-            border-bottom: 4px solid #0a2b66;
-            padding-bottom: 0.7rem;
-        }
-        .pit-animation-img {
-            max-width: 100%;
-            height: auto;
-            border: 4px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(10, 43, 102, 0.5);
-            transition: transform 0.4s ease;
-        }
-        .pit-animation-img:hover {
-            transform: scale(1.04);
-        }
-        .pit-safety {
-            background-color: rgba(30, 30, 30, 0.7);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2.5rem 0;
-        }
-        .pit-safety-title {
-            color: #0a2b66;
-            font-size: 1.9rem;
-            margin-bottom: 1.4rem;
-            border-bottom: 4px solid #0a2b66;
-            padding-bottom: 0.7rem;
-        }
-        .pit-safety-list {
-            margin-left: 2.2rem;
-            line-height: 1.9;
-        }
-        .pit-safety-list li {
-            margin-bottom: 1rem;
-        }
-        .pit-safety-list strong {
-            color: #0a2b66;
-        }
-        .pit-video {
-            margin: 2.5rem 0;
-            text-align: center;
-        }
-        .pit-video-title {
-            color: #0a2b66;
-            font-size: 1.9rem;
-            margin-bottom: 1.4rem;
-        }
-        .pit-video-container {
+
+        /* Police Tape Divider */
+        .police-tape {
+            width: 100%;
+            height: 18px;
+            margin: 16px 0 18px 0;
+            background: repeating-linear-gradient(135deg, #1e90ff 0 12px, #fff 12px 24px);
+            border: 2px solid #1e90ff;
+            box-shadow: 0 2px 8px 0 rgba(0,0,0,0.12);
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            overflow: hidden;
-            border: 4px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 0 25px rgba(10, 43, 102, 0.5);
+            z-index: 2;
         }
-        .pit-video-container iframe {
+        }
+        .card p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .read-more {
+            display: inline-block;
+            color: #1e90ff;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #1e90ff;
+            padding: 8px 15px;
+        border-radius: 6px;
+        background: rgba(30,144,255,0.07);
+        box-shadow: 0 2px 8px 0 rgba(30,144,255,0.10);
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+        }
+        .read-more:hover {
+            background-color: #1e90ff;
+            color: #000;
+            box-shadow: 0 8px 24px 0 rgba(30,144,255,0.18);
+            transform: scale(1.08) translateY(-2px);
+        }
+
+        .read-more:active {
+            background-color: #1560a8;
+            color: #fff;
+            transform: scale(0.97);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #111;
+            margin: 5% auto;
+            padding: 30px;
+            border: 3px solid #1e90ff;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .close-modal {
+            color: #1e90ff;
+            float: right;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: block;
+            text-align: right;
+            margin-bottom: 15px;
+        }
+        .close-modal:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+        .rank-structure {
+            margin-top: 30px;
+        }
+        .rank-level {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid #1e90ff;
+            background-color: rgba(30, 144, 255, 0.1);
+            border-radius: 0 8px 8px 0;
+        }
+        .rank-title {
+            font-size: 24px;
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .rank-title img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .rank-responsibilities {
+            padding-left: 20px;
+        }
+        .rank-responsibilities li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        /* PIT Technique Visualization */
+        .pit-visualization {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+        }
+        .pit-steps {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .pit-step {
+            width: 23%;
+            min-width: 250px;
+            margin: 10px;
+            background-color: #111;
+            border: 1px solid #1e90ff;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        .pit-step img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .step-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .step-description {
+            margin-top: 10px;
+            color: #1e90ff;
+            font-weight: 600;
+        }
+        /* Equipment Details */
+        .equipment-details {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+        }
+        .equipment-section {
+            margin-bottom: 30px;
+        }
+        .equipment-section h4 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .equipment-section h4 img {
+            height: 24px;
+            margin-right: 10px;
+        }
+        .equipment-list {
+            margin-left: 20px;
+        }
+        .equipment-list li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        /* Use of Force Details */
+        .use-of-force-details {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+        }
+        .force-section {
+            margin-bottom: 30px;
+        }
+        .force-section h4 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .force-section h4 img {
+            height: 24px;
+            margin-right: 10px;
+        }
+        .force-list {
+            margin-left: 20px;
+        }
+        .force-list li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        .warning-box {
+            background-color: rgba(255, 69, 0, 0.2);
+            border: 2px solid #ff4500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        /* Incident Command System */
+        .incident-command-details {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+        }
+        .command-section {
+            margin-bottom: 30px;
+        }
+        .command-section h4 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .command-section h4 img {
+            height: 24px;
+            margin-right: 10px;
+        }
+        .command-list {
+            margin-left: 20px;
+        }
+        .command-list li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        /* Miranda Rights Details */
+        .miranda-details {
+            margin: 40px 0;
+            padding: 30px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border: 2px solid #1e90ff;
+            border-radius: 8px;
+        }
+        .miranda-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        .miranda-requirements {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(30, 144, 255, 0.1);
+            border-left: 4px solid #1e90ff;
+        }
+        .miranda-requirements h4 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .miranda-requirements h4 img {
+            height: 24px;
+            margin-right: 10px;
+        }
+        .miranda-requirements ul {
+            margin-left: 20px;
+        }
+        /* Safety Protocols Table */
+        .safety-protocols {
+            margin: 40px 0;
+        }
+        .protocol-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(30, 30, 30, 0.8);
+            border-left: 4px solid #1e90ff;
+            border-radius: 0 8px 8px 0;
+        }
+        .protocol-title {
+            color: #1e90ff;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .protocol-title img {
+            height: 28px;
+            margin-right: 10px;
+        }
+        .protocol-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+        .protocol-table th {
+            background-color: rgba(30, 144, 255, 0.2);
+            color: #1e90ff;
+            text-align: left;
+            padding: 12px 15px;
+            border: 1px solid #1e90ff;
+        }
+        .protocol-table td {
+            padding: 12px 15px;
+            border: 1px solid #1e90ff;
+            vertical-align: top;
+        }
+        .protocol-table tr:nth-child(even) {
+            background-color: rgba(30, 30, 30, 0.6);
+        }
+        /* Leader Cards */
+        .leader-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        .leader-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #1e90ff;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .leader-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(30, 144, 255, 0.4);
+        }
+        .leader-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
+            height: 5px;
+            background: #1e90ff;
+        }
+        .leader-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #333;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 2px solid #1e90ff;
+            box-shadow: 0 0 24px #1e90ff;
+            animation: leaderPulse 1.2s infinite alternate;
+        }
+
+        @keyframes leaderPulse {
+            0% {
+                box-shadow: 0 0 24px #1e90ff, 0 0 0 #ff003c;
+                border-color: #1e90ff;
+            }
+            50% {
+                box-shadow: 0 0 32px #ff003c, 0 0 16px #1e90ff;
+                border-color: #ff003c;
+            }
+            100% {
+                box-shadow: 0 0 24px #1e90ff, 0 0 0 #ff003c;
+                border-color: #1e90ff;
+            }
+        }
+        }
+        .leader-name {
+            font-size: 22px;
+            color: #1e90ff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .leader-position {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .leader-bio {
+            color: #ccc;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        /* Footer */
+        footer {
+            background-color: rgba(10, 10, 10, 0.9);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 3px solid #1e90ff;
+        }
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #1e90ff;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .copyright {
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            nav ul {
+                margin-top: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            nav ul li {
+                margin: 5px 10px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
+            section {
+                padding: 60px 0;
+            }
+            section h2 {
+                font-size: 28px;
+            }
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
+            }
+            .pit-steps {
+                flex-direction: column;
+            }
+            .pit-step {
+                width: 100%;
+                margin: 10px 0;
+            }
+            .logo img {
+                height: 30px;
+            }
+            .logo {
+                font-size: 22px;
+            }
+        }
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes bluePulse {
+            0% {
+                filter: drop-shadow(0 0 60px #1e90ff) drop-shadow(0 0 30px #1e90ff);
+            }
+            50% {
+                filter: drop-shadow(0 0 100px #1e90ff) drop-shadow(0 0 60px #1e90ff);
+            }
+            100% {
+                filter: drop-shadow(0 0 60px #1e90ff) drop-shadow(0 0 30px #1e90ff);
+            }
+        }
+
+        @keyframes blueLinePulse {
+            0% {
+                background-position: 0% 0%;
+                opacity: 0.7;
+            }
+            50% {
+                background-position: 100% 0%;
+                opacity: 1;
+            }
+            100% {
+                background-position: 0% 0%;
+                opacity: 0.7;
+            }
+        }
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            border: none;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(30, 144, 255, 0.3);
+            border-top: 5px solid #1e90ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
     <header>
         <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-img">
-                        <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                    </div>
-                    <div>
-                        <div class="logo-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
-                    </div>
-                </div>
-                <div class="emergency-contact">
-                    <div style="color: #0a2b66; font-weight: bold; font-size: 1.2rem;">EMERGENCY: 911</div>
-                    <div style="color: #0a2b66; font-size: 1.1rem;">NON-EMERGENCY: (555) 999-0000</div>
-                </div>
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo">
+                    <span class="logo-flash-red">San</span> <span class="logo-flash-red">Andreas</span> <span class="logo-flash-blue">Police Force</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-section="sops">SOPs</a></li>
+                        <li><a href="#" class="nav-link" data-section="leadership">Leadership</a></li>
+                        <li><a href="#" class="nav-link" data-section="miranda">Miranda Rights</a></li>
+                        <li><a href="#" class="nav-link" data-section="pit">PIT Training</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </header>
-    <nav>
-        <div class="container">
-            <ul class="nav-links">
-                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
-                <li><a href="#" class="nav-link" data-page="sops">S.O.P</a></li>
-                <li><a href="#" class="nav-link" data-page="miranda">Miranda Rights</a></li>
-                <li><a href="#" class="nav-link" data-page="firearms">Firearm Certification</a></li>
-                <li><a href="#" class="nav-link" data-page="pit">PIT Maneuver Training</a></li>
-                <li><a href="#" class="nav-link" data-page="leadership">Leadership</a></li>
-            </ul>
+
+    <!-- Hero Section -->
+    <section class="hero active">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo">
+            </div>
+            <h1>Protecting San Andreas</h1>
+            <p>The San Andreas Police Force is committed to serving and protecting our communities with integrity, professionalism, and courage. We uphold the law while respecting the rights of all citizens.</p>
         </div>
-    </nav>
-    <main>
+    </section>
+
+    <!-- SOPs Section -->
+    <section id="sops" class="main-section">
+        <div class="police-lights">
+            <div class="light red"></div>
+            <div class="light blue"></div>
+        </div>
         <div class="container">
-            <!-- Home Page -->
-            <div id="home" class="page active">
-                <div class="page-content">
-                    <h1 class="page-title">Welcome to Los Santos Police Department</h1>
-                    <div class="emergency-banner">OFFICIAL LAW ENFORCEMENT PORTAL - AUTHORIZED ACCESS ONLY</div>
-                    <!-- News Banner -->
-                    <div class="news-banner">
-                        <div class="news-title">LSPD DAILY BRIEFING</div>
-                        <div class="news-item">
-                            <div class="news-header">
-                                <span class="news-tag">OPERATION SAFE STREETS</span>
-                                <div class="news-date">JAN 15, 2025</div>
-                            </div>
-                            <div class="news-content">
-                                "Chief Mike Stand reports a 18% reduction in downtown burglaries following Operation Safe Streets. Officers conducted over 300 high-visibility patrols and community check-ins last month. 'We're building trust and making our neighborhoods safer,' said the Chief. The initiative will expand to Del Perro and Rockford Hills next quarter."
-                            </div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-header">
-                                <span class="news-tag">COMMUNITY OUTREACH</span>
-                                <div class="news-date">JAN 14, 2025</div>
-                            </div>
-                            <div class="news-content">
-                                "LSPD hosted a successful Youth Police Academy graduation ceremony. 40 local teens completed the 5-week program focused on leadership, law, and public service. 'These young people are our future,' said Deputy Chief Stirrling. Graduates received certificates and invitations to join the LSPD Explorer Program."
-                            </div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-header">
-                                <span class="news-tag">TECH UPGRADE</span>
-                                <div class="news-date">JAN 13, 2025</div>
-                            </div>
-                            <div class="news-content">
-                                "All patrol vehicles now equipped with upgraded dash cams and real-time AI threat detection systems. The new technology improves evidence collection and officer safety. Training sessions completed for all field personnel. 'Transparency and accountability are non-negotiable,' stated Chief Stand. 'We serve the people, not ourselves.'"
-                            </div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-header">
-                                <span class="news-tag">TRAFFIC SAFETY</span>
-                                <div class="news-date">JAN 12, 2025</div>
-                            </div>
-                            <div class="news-content">
-                                "LSPD Traffic Division issued 102 citations during last weekend's DUI crackdown. Officers removed 15 impaired drivers from the roads. 'Every arrest prevents a potential tragedy,' said Sgt. Williams. The campaign continues through the holiday season."
-                            </div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-header">
-                                <span class="news-tag">AWARD RECOGNITION</span>
-                                <div class="news-date">JAN 11, 2025</div>
-                            </div>
-                            <div class="news-content">
-                                "Officer Maria Chen awarded 'Officer of the Quarter' for heroic rescue during a structure fire. Chen entered a burning building to save two civilians before fire crews arrived. 'It's what we're trained to do,' said Chen. The award includes a commendation and $1,500 bonus."
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Announcements -->
-                    <div class="announcement animated">
-                        <div class="announcement-title">EMERGENCY ALERT: VIOLENT CRIME INITIATIVE</div>
-                        <div class="announcement-date">January 10, 2025</div>
-                        <p>Chief Stand has launched a citywide Violent Crime Initiative targeting armed robberies and gang activity. All units are to increase patrols in high-risk zones. Intelligence sharing with county and federal partners has been enhanced. Weekly briefings will be held in the Command Center. Failure to comply with orders will result in immediate disciplinary action.</p>
-                    </div>
-                    <div class="announcement animated">
-                        <div class="announcement-title">ANNUAL FIREARMS QUALIFICATION SCHEDULE RELEASED</div>
-                        <div class="announcement-date">January 5, 2025</div>
-                        <p>The annual firearms qualification schedule has been released. All officers must complete qualification by February 28th. Schedule your session through the Firearms Certification portal. Failure to qualify will result in temporary suspension of firearm privileges and reassignment to desk duty.</p>
-                    </div>
-                    <div class="announcement animated">
-                        <div class="announcement-title">NEW SOP ADDITIONS - JANUARY 2025</div>
-                        <div class="announcement-date">January 1, 2025</div>
-                        <p>Several updates have been made to our Standard Operating Procedures. Key changes include updated de-escalation techniques, revised use-of-force reporting, and new protocols for mental health crisis response. All personnel are required to review the updated SOP manual by January 15th. Non-compliance will be treated as insubordination.</p>
-                    </div>
-                    <div class="logo-bottom">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
-                    </div>
+            <div class="section-logo" style="display:flex;justify-content:center;margin-bottom:30px;">
+                <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo" style="height:500px;width:auto;margin-top:40px;">
+            </div>
+            <h2>Standard Operating Procedures</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Patrol Procedures
+                    </h3>
+                    <div class="police-tape"></div>
+                    </h3>
+                    <p>Standard protocols for daily patrol operations, including vehicle checks, area coverage, and incident response times. Officers must adhere to established routes while maintaining flexibility for emergent situations.</p>
+                    <a href="#" class="read-more" id="view-patrol">Read More</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Use of Force
+                    </h3>
+                    <div class="police-tape"></div>
+                    </h3>
+                    <p>Guidelines governing the appropriate application of force in various situations. Emphasizes de-escalation techniques and proportional response based on threat level assessment.</p>
+                    <a href="#" class="read-more" id="view-force">Read More</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Standard Equipment
+                    </h3>
+                    <div class="police-tape"></div>
+                    </h3>
+                    <p>All officers are issued standard equipment to perform their duties safely and effectively. This includes both essential gear and specialized items for specific situations.</p>
+                    <a href="#" class="read-more" id="view-equipment">Read More</a>
                 </div>
             </div>
-            <!-- SOPs Page -->
-            <div id="sops" class="page">
-                <div class="page-content">
-                    <div class="logo-bottom" style="margin-top: 0;">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
-                    </div>
-                    <div class="sop-header">
-                        <h1 class="sop-title">Los Santos Police Department | S.O.P</h1>
-                        <div class="sop-subtitle">Standard Operating Procedures</div>
-                    </div>
-                    <div class="sop-intro">
-                        <p>This Standard Operating Procedures manual outlines the policies, responsibilities, and conduct expected of all personnel within the Los Santos Police Department (LSPD). These procedures are based on federal and state law, constitutional standards, and professional policing ethics. All officers, cadets, and support staff are required to uphold these standards with integrity, accountability, and public service.</p>
-                        <p>The LSPD exists to protect life and property, enforce the law fairly, and preserve the peace in Los Santos. We serve a diverse, vibrant community, and we expect our officers to reflect the highest standards of professionalism, respect, and justice.</p>
-                    </div>
-                    <!-- Code of Conduct -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 1.0 | Code of Conduct</div>
-                        <div class="sop-title">CODE OF CONDUCT</div>
-                        <div class="sop-content">
-                            <p>All members of the LSPD are held to the highest standard of personal and professional conduct. Your badge is a symbol of public trust—protect it at all times.</p>
-                            <ul class="sop-list">
-                                <li>Act with honesty, integrity, and ethical judgment.</li>
-                                <li>Treat all individuals with fairness, dignity, and respect.</li>
-                                <li>Enforce the law without bias, prejudice, or favoritism.</li>
-                                <li>Follow department policy, state law, and the U.S. Constitution.</li>
-                                <li>Report misconduct by any officer—integrity is non-negotiable.</li>
-                                <li>Never misuse your authority, vehicle, or equipment.</li>
-                                <li>Exercise sound judgment—especially when off-duty.</li>
-                                <li>Represent the LSPD with pride and professionalism.</li>
-                            </ul>
-                            <p>Violation of this code may result in disciplinary action, demotion, or termination.</p>
-                        </div>
-                    </div>
-                    <!-- Ranks & Callsigns -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 2.0 | Ranks & Callsigns</div>
-                        <div class="sop-title">RANKS & CALLSIGNS</div>
-                        <div class="sop-content">
-                            <p>The LSPD operates under a clear chain of command:</p>
-                            <ul class="sop-list">
-                                <li>Chief of Police</li>
-                                <li>Deputy Chief</li>
-                                <li>Commander</li>
-                                <li>Captain</li>
-                                <li>Lieutenant</li>
-                                <li>Sergeant</li>
-                                <li>Officer I / II / III</li>
-                                <li>Probationary Officer</li>
-                            </ul>
-                            <p>Every officer answers to a supervisor. Disobeying a lawful order is grounds for disciplinary action.</p>
-                        </div>
-                    </div>
-                    <!-- Radio Etiquette -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 3.0 | Radio Etiquette</div>
-                        <div class="sop-title">RADIO ETIQUETTE</div>
-                        <div class="sop-content">
-                            <p>Clear communication is critical. Use standard 10-codes and plain language as appropriate.</p>
-                            <p>Officers must:</p>
-                            <ol class="sop-list">
-                                <li>Use designated channels for patrol or tactical ops.</li>
-                                <li>Keep transmissions brief and professional.</li>
-                                <li>Identify by callsign at start of transmission.</li>
-                                <li>Avoid unnecessary chatter.</li>
-                                <li>Follow dispatch protocols and acknowledge calls promptly.</li>
-                            </ol>
-                            <p><span class="sop-emphasis">Common 10-codes:</span></p>
-                            <div class="sop-code">
-                                10-4 – Acknowledged<br>
-                                10-7 – Out of service<br>
-                                10-8 – In service<br>
-                                10-20 – Location<br>
-                                10-33 – Emergency traffic only<br>
-                                10-50 – Vehicle accident<br>
-                                10-99 – Officer in danger
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Probationary Officers -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 4.0 | Probationary Officers</div>
-                        <div class="sop-title">PROBATIONARY OFFICERS</div>
-                        <div class="sop-content">
-                            <p>New officers begin as Probationary Officers under a certified Field Training Officer (FTO) for 16 weeks.</p>
-                            <p>You will be trained in:</p>
-                            <ul class="sop-list">
-                                <li>State Law & Constitutional Rights</li>
-                                <li>Traffic enforcement and DUI procedures</li>
-                                <li>Arrest protocols and Miranda rights</li>
-                                <li>Use of force policy</li>
-                                <li>Report writing and documentation</li>
-                                <li>Radio and patrol procedures</li>
-                                <li>Community engagement</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Law & Legal Powers -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 5.0 | Law & Legal Powers</div>
-                        <div class="sop-title">LAW & LEGAL POWERS</div>
-                        <div class="sop-content">
-                            <p>LSPD officers are peace officers with full arrest powers in Los Santos.</p>
-                            <p><span class="sop-emphasis">Key Principles:</span></p>
-                            <ul class="sop-list">
-                                <li>Probable Cause required for arrests and searches.</li>
-                                <li>Reasonable Suspicion allows brief stops (Terry frisk if weapon suspected).</li>
-                                <li>4th Amendment protects against unlawful search and seizure.</li>
-                                <li>Miranda Rights must be read during custodial interrogation.</li>
-                                <li>Use of Force must be necessary, proportional, and documented.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Use of Force -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 6.0 | Use of Force</div>
-                        <div class="sop-title">USE OF FORCE</div>
-                        <div class="sop-content">
-                            <p>Use only the force necessary to gain control. De-escalate when possible.</p>
-                            <p><span class="sop-emphasis">Use of Force Continuum:</span></p>
-                            <ul class="sop-list">
-                                <li><span class="sop-emphasis">Officer Presence</span> – Uniform deters crime.</li>
-                                <li><span class="sop-emphasis">Verbal Commands</span> – "Stop. Show me your hands."</li>
-                                <li><span class="sop-emphasis">Empty-Hand Control</span> – Handcuffing, takedowns.</li>
-                                <li><span class="sop-emphasis">Less-Lethal Tools</span> – Baton, Taser.</li>
-                                <li><span class="sop-emphasis">Firearms</span> – Lethal force only when threat of death or serious injury.</li>
-                            </ul>
-                            <p>All incidents involving force must be documented and reviewed.</p>
-                        </div>
-                    </div>
-                    <!-- Vehicles -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 7.0 | Vehicles</div>
-                        <div class="sop-title">VEHICLES</div>
-                        <div class="sop-content">
-                            <p>All vehicles are LSPD property. Maintain with care.</p>
-                            <p><span class="sop-emphasis">Requirements:</span></p>
-                            <ul class="sop-list">
-                                <li>Lights and siren must be functional.</li>
-                                <li>Dash cam on during all calls.</li>
-                                <li>Vehicle inspected at start/end of shift.</li>
-                                <li>No personal items visible.</li>
-                                <li>No unauthorized passengers.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Pursuits -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 8.0 | Pursuits</div>
-                        <div class="sop-title">PURSUITS</div>
-                        <div class="sop-content">
-                            <p>Pursuits are high-risk. Only initiate for serious crimes.</p>
-                            <p><span class="sop-emphasis">Rules:</span></p>
-                            <ul class="sop-list">
-                                <li>Only for violent felonies or DUI with injury risk.</li>
-                                <li>Supervisor must be notified within 60 seconds.</li>
-                                <li>PIT maneuvers require Sergeant approval.</li>
-                                <li>Spike strips used only in safe areas.</li>
-                                <li>Terminate if unsafe due to weather, traffic, or darkness.</li>
-                            </ul>
-                            <p>Public safety comes before apprehension.</p>
-                        </div>
-                    </div>
-                    <!-- Reports & Warrants -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 11.0 | Reports & Warrants</div>
-                        <div class="sop-title">REPORTS & WARRANTS</div>
-                        <div class="sop-content">
-                            <p>If it wasn't documented, it didn't happen.</p>
-                            <p>All arrests, use of force, pursuits, and major incidents require a full report within 24 hours.</p>
-                            <p>Reports must be:</p>
-                            <ul class="sop-list">
-                                <li>Accurate</li>
-                                <li>Complete</li>
-                                <li>Free of opinion or exaggeration</li>
-                            </ul>
-                            <p>Falsifying a report = automatic termination.</p>
-                        </div>
-                    </div>
-                    <!-- Hostage Situations -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 12.0 | Hostage Situations</div>
-                        <div class="sop-title">HOSTAGE SITUATIONS</div>
-                        <div class="sop-content">
-                            <p>Standoff or armed barricade?</p>
-                            <ul class="sop-list">
-                                <li>Do not engage alone.</li>
-                                <li>Secure perimeter.</li>
-                                <li>Call for SWAT and negotiators.</li>
-                                <li>Establish command post.</li>
-                                <li>Keep civilians clear.</li>
-                                <li>Wait for tactical team.</li>
-                            </ul>
-                            <p>Survival is the priority.</p>
-                        </div>
-                    </div>
-                    <!-- Equipment & Firearms -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 13.0 | Equipment & Firearms</div>
-                        <div class="sop-title">EQUIPMENT & FIREARMS</div>
-                        <div class="sop-content">
-                            <p><span class="sop-emphasis">Standard Issue:</span></p>
-                            <ul class="sop-list">
-                                <li>9mm service pistol</li>
-                                <li>Duty holster and spare mags</li>
-                                <li>Taser X2</li>
-                                <li>Expandable baton</li>
-                                <li>Handcuffs (spare pair)</li>
-                                <li>Radio</li>
-                                <li>Body-worn camera</li>
-                                <li>Uniform and badge</li>
-                            </ul>
-                            <p>All gear must be worn and functional. Lost equipment = out of pocket.</p>
-                        </div>
-                    </div>
-                    <!-- Dress Code -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 15.0 | Dress Code</div>
-                        <div class="sop-title">DRESS CODE</div>
-                        <div class="sop-content">
-                            <p>You represent LSPD. Look professional.</p>
-                            <p><span class="sop-emphasis">Uniform Requirements:</span></p>
-                            <ul class="sop-list">
-                                <li>Clean, pressed shirt and trousers</li>
-                                <li>Badge visible at all times</li>
-                                <li>Duty belt properly loaded</li>
-                                <li>Shoes polished</li>
-                            </ul>
-                        </div>
-                    </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="main-section">
+        <div class="police-lights">
+            <div class="light red"></div>
+            <div class="light blue"></div>
+        </div>
+        <div class="container">
+            <div class="section-logo" style="display:flex;justify-content:center;margin-bottom:30px;">
+                <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo" style="height:500px;width:auto;margin-top:40px;">
+            </div>
+            <h2>Leadership & Command</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Chain of Command
+                    </h3>
+                    <p>Clear hierarchy from patrol officers through precinct commanders to the Chief of Police. Understanding and respecting the chain of command ensures efficient operations and accountability.</p>
+                    <a href="#" class="read-more" id="view-structure">View Structure</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Command Staff
+                    </h3>
+                    <p>Meet our leadership team dedicated to guiding the San Andreas Police Force with integrity and vision. Biographies and contact information for senior command personnel.</p>
+                    <a href="#" class="read-more" id="meet-leaders">Meet Leaders</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Incident Command System
+                    </h3>
+                    <p>Protocols for establishing command during major incidents or emergencies. Standardized approach to ensure coordinated response across multiple units and agencies.</p>
+                    <a href="#" class="read-more" id="view-ics">Learn More</a>
                 </div>
             </div>
-            <!-- Miranda Rights Page -->
-            <div id="miranda" class="page">
-                <div class="page-content">
-                    <div class="logo-bottom" style="margin-top: 0;">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
-                    </div>
-                    <div class="sop-header">
-                        <h1 class="sop-title">Los Santos Police Department | Miranda Rights</h1>
-                        <div class="sop-subtitle">State of San Andreas - Los Santos</div>
-                    </div>
-                    <div class="sop-intro">
-                        <p>Miranda Rights are constitutional protections that must be read to individuals in police custody before interrogation. These rights, derived from the Fifth and Sixth Amendments to the U.S. Constitution, ensure that individuals are aware of their legal protections during custodial questioning.</p>
-                        <p>Failure to properly administer Miranda Rights can result in evidence being excluded from court proceedings. All LSPD personnel must be thoroughly familiar with the proper administration of these rights.</p>
-                    </div>
-                    <!-- Full Version -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 Full Version</div>
-                        <div class="sop-title">FULL VERSION</div>
-                        <div class="sop-content">
-                            <p>"You have the right to remain silent. Anything you say can and will be used against you in a court of law. You have the right to speak with an attorney and to have that attorney present during questioning. If you cannot afford an attorney, one will be provided for you by the state. Do you understand the rights I've just read to you? With these rights in mind, do you wish to speak to me now?"</p>
-                        </div>
-                    </div>
-                    <!-- Quick Version -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 Quick Version</div>
-                        <div class="sop-title">QUICK VERSION</div>
-                        <div class="sop-content">
-                            <p>"You have the right to remain silent. Anything you say can be used against you in court. You have the right to an attorney. If you cannot afford one, one will be provided. Do you understand these rights?"</p>
-                        </div>
-                    </div>
-                    <!-- When to Administer -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 When to Administer</div>
-                        <div class="sop-title">WHEN TO ADMINISTER</div>
-                        <div class="sop-content">
-                            <p>Miranda Rights must be administered when:</p>
-                            <ul class="sop-list">
-                                <li>The individual is in custody (not free to leave)</li>
-                                <li>The individual is being interrogated or questioned</li>
-                                <li>The questioning is likely to elicit an incriminating response</li>
-                            </ul>
-                            <p>Failure to provide Miranda warnings when required may result in statements being inadmissible in court.</p>
-                        </div>
-                    </div>
+        </div>
+    </section>
+
+    <!-- Miranda Rights Section -->
+    <section id="miranda" class="main-section">
+        <div class="police-lights">
+            <div class="light red"></div>
+            <div class="light blue"></div>
+        </div>
+        <div class="container">
+            <div class="section-logo" style="display:flex;justify-content:center;margin-bottom:30px;">
+                <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo" style="height:500px;width:auto;margin-top:40px;">
+            </div>
+            <h2>Miranda Rights</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Miranda Rights Overview
+                    </h3>
+                    <p><strong>Standard Warning:</strong> "You have the right to remain silent. Anything you say can and will be used against you in a court of law. You have the right to an attorney. If you cannot afford an attorney, one will be provided for you."</p>
+                    <p><strong>When to Administer:</strong> Miranda Rights must be administered when the individual is in custody (not free to leave) and being interrogated or questioned in a way likely to elicit an incriminating response.</p>
+                    <a href="#" class="read-more" id="view-miranda">Procedures</a>
                 </div>
             </div>
-            <!-- Firearm Certification Page -->
-            <div id="firearms" class="page">
-                <div class="page-content">
-                    <div class="logo-bottom" style="margin-top: 0;">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
-                    </div>
-                    <div class="sop-header">
-                        <h1 class="sop-title">Los Santos Police Department | Firearms License Code of Conduct</h1>
-                        <div class="sop-subtitle">State of San Andreas – Los Santos</div>
-                        <div class="sop-subtitle">License Fee: $50,000</div>
-                    </div>
-                    <div class="sop-intro">
-                        <p>Before we proceed, you are required to review and acknowledge the following Firearms License Code of Conduct for legal firearm ownership in the State of San Andreas, as administered and enforced by the Los Santos Police Department (LSPD).</p>
-                        <p>By accepting this license, you voluntarily agree to the following terms and conditions:</p>
-                    </div>
-                    <!-- Legal Use Only -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 1. Legal Use Only</div>
-                        <div class="sop-title">LEGAL USE ONLY</div>
-                        <div class="sop-content">
-                            <p>You agree to use any licensed firearm solely for lawful purposes, including self-defense, recreational shooting, or lawful hunting activities within designated areas.</p>
-                            <p>Any use of a firearm in connection with criminal activity will result in immediate revocation of this license, confiscation of all firearms, and criminal prosecution under State and County law.</p>
-                        </div>
-                    </div>
-                    <!-- Concealed Carry Regulations -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 2. Concealed Carry Regulations</div>
-                        <div class="sop-title">CONCEALED CARRY REGULATIONS</div>
-                        <div class="sop-content">
-                            <p>You are authorized to carry a concealed firearm on your person within Los Santos and other jurisdictions where permitted by law.</p>
-                            <p>The firearm must remain holstered and concealed at all times.</p>
-                            <p>It may only be drawn in cases of imminent self-defense, defense of others, or while participating in authorized shooting activities at approved ranges.</p>
-                        </div>
-                    </div>
-                    <!-- Prohibition on Brandishing or Threatening -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 3. Prohibition on Brandishing or Threatening</div>
-                        <div class="sop-title">PROHIBITION ON BRANDING OR THREATENING</div>
-                        <div class="sop-content">
-                            <p>Brandishing, displaying, or threatening others with a firearm in public without justifiable cause is strictly prohibited.</p>
-                            <p>This includes aggressive gestures, pointing a weapon at individuals during disputes, or any action that reasonably causes fear.</p>
-                            <p>Violation constitutes a misdemeanor or felony offense, immediate license revocation, and potential arrest.</p>
-                        </div>
-                    </div>
-                    <!-- Duty to Disclose to Law Enforcement -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 4. Duty to Disclose to Law Enforcement</div>
-                        <div class="sop-title">DUTY TO DISCLOSE TO LAW ENFORCEMENT</div>
-                        <div class="sop-content">
-                            <p>If you are stopped, questioned, or detained by any law enforcement officer within Los Santos or elsewhere in San Andreas:</p>
-                            <p>You must immediately inform the officer that you are legally carrying a firearm.</p>
-                            <p>You must keep your hands visible and follow all lawful commands.</p>
-                            <p>Failure to disclose your firearm may result in criminal charges, including obstruction and unlawful carry.</p>
-                        </div>
-                    </div>
-                    <!-- Safe Storage & Accountability -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 5. Safe Storage & Accountability</div>
-                        <div class="sop-title">SAFE STORAGE & ACCOUNTABILITY</div>
-                        <div class="sop-content">
-                            <p>You are personally responsible for the secure storage of all licensed firearms when not in your possession.</p>
-                            <p>Firearms must be stored in a locked container or with a trigger lock when not in use.</p>
-                            <p>If a licensed firearm is lost, stolen, or compromised, you must report it to the LSPD within 24 hours.</p>
-                            <p>Failure to report may result in fines, suspension, or revocation of your license.</p>
-                        </div>
-                    </div>
-                    <!-- Mental & Physical Fitness to Carry -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 6. Mental & Physical Fitness to Carry</div>
-                        <div class="sop-title">MENTAL & PHYSICAL FITNESS TO CARRY</div>
-                        <div class="sop-content">
-                            <p>You shall not possess or carry a firearm while:</p>
-                            <p>Under the influence of alcohol, illegal drugs, or prescription medication that impairs judgment, motor skills, or awareness.</p>
-                            <p>Suffering from a mental health crisis or condition that renders you a danger to yourself or others.</p>
-                            <p>The LSPD reserves the right to suspend your license pending a fitness evaluation.</p>
-                        </div>
-                    </div>
-                    <!-- No Unauthorized Transfer -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 7. No Unauthorized Transfer</div>
-                        <div class="sop-title">NO UNAUTHORIZED TRANSFER</div>
-                        <div class="sop-content">
-                            <p>You may not sell, gift, loan, or otherwise transfer your licensed firearm to any individual who does not hold a valid firearms license issued by the State of San Andreas.</p>
-                            <p>Unauthorized transfer is a Class C Felony and will result in prosecution, license revocation, and permanent disqualification from future licensing.</p>
-                        </div>
-                    </div>
-                    <!-- Subject to Review & Revocation -->
-                    <div class="sop-section animated">
-                        <div class="sop-number">🔹 8. Subject to Review & Revocation</div>
-                        <div class="sop-title">SUBJECT TO REVIEW & REVOCATION</div>
-                        <div class="sop-content">
-                            <p>Your firearms license is not permanent and remains subject to periodic review by the Los Santos Police Department.</p>
-                            <p>The LSPD may suspend or revoke your license at any time if:</p>
-                            <p>You violate any state or county law.</p>
-                            <p>You engage in behavior deemed dangerous or reckless.</p>
-                            <p>You become ineligible due to criminal, medical, or psychological factors.</p>
-                        </div>
-                    </div>
+        </div>
+    </section>
+
+    <!-- PIT Maneuver Section -->
+    <section id="pit" class="main-section">
+        <div class="police-lights">
+            <div class="light red"></div>
+            <div class="light blue"></div>
+        </div>
+        <div class="container">
+            <div class="section-logo" style="display:flex;justify-content:center;margin-bottom:30px;">
+                <img src="https://i.postimg.cc/RCf4fwjf/image.png" alt="San Andreas Police Force Logo" style="height:500px;width:auto;margin-top:40px;">
+            </div>
+            <h2>PIT Maneuver Training</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Technique Overview
+                    </h3>
+                    <p>The Precision Immobilization Technique (PIT) is used to safely terminate vehicle pursuits by applying controlled force to the rear quarter panel of a fleeing vehicle to cause it to turn sideways.</p>
+                    <a href="#" class="read-more" id="view-technique">Technique Details</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Authorization & Safety
+                    </h3>
+                    <p>Strict protocols governing when PIT maneuvers are authorized, considering factors like speed, location, traffic, and vehicle type. Safety considerations for officers, suspects, and bystanders.</p>
+                    <a href="#" class="read-more" id="view-safety">Safety Protocols</a>
+                </div>
+                <div class="card">
+                    <h3>
+                        <img src="" alt="" style="display: none;">
+                        Certification Training
+                    </h3>
+                    <p>Comprehensive training program including classroom instruction, simulator scenarios, and live vehicle exercises. Annual recertification required to maintain PIT authorization.</p>
+                    <a href="#" class="read-more" id="view-training">Training Schedule</a>
                 </div>
             </div>
-            <!-- PIT Maneuver Training Page -->
-            <div id="pit" class="page">
-                <div class="page-content">
-                    <div class="logo-bottom" style="margin-top: 0;">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
+        </div>
+    </section>
+
+    <!-- Meet the Leaders Section -->
+    <section id="meet-leaders-page">
+        <div class="container">
+            <h2>Meet Our Leadership</h2>
+            <div class="leader-container">
+                <div class="leader-card">
+                    <div class="leader-image">DM</div>
+                    <div class="leader-name">Dan Murphy</div>
+                    <div class="leader-position">Commissioner</div>
+                    <div class="leader-bio">Oversees the entire San Andreas Police Force and sets strategic direction for the organization.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">KM</div>
+                    <div class="leader-name">Kayce McIntonish</div>
+                    <div class="leader-position">Deputy Commissioner</div>
+                    <div class="leader-bio">Assists the Commissioner in managing operations and ensuring departmental goals are met.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">FM</div>
+                    <div class="leader-name">Frank McIntonish</div>
+                    <div class="leader-position">Assistant Commissioner</div>
+                    <div class="leader-bio">Manages specialized divisions and supports high-level administrative functions.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">ST</div>
+                    <div class="leader-name">Sasha Turn</div>
+                    <div class="leader-position">Commander</div>
+                    <div class="leader-bio">Leads major commands and coordinates operations across multiple divisions.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">CT</div>
+                    <div class="leader-name">Chace Turn</div>
+                    <div class="leader-position">Superintendent</div>
+                    <div class="leader-bio">Manages large-scale operations and ensures effective resource allocation.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">AR</div>
+                    <div class="leader-name">Amoura Rose</div>
+                    <div class="leader-position">Inspector</div>
+                    <div class="leader-bio">Supervises daily operations and ensures compliance with departmental policies.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">SK</div>
+                    <div class="leader-name">Scott Kenway</div>
+                    <div class="leader-position">Senior Sergeant</div>
+                    <div class="leader-bio">Manages shifts and provides on-the-ground leadership to patrol units.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chain of Command Modal -->
+    <div id="chainModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Chain of Command Structure
+            </h2>
+            <div class="rank-structure">
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Constable
                     </div>
-                    <div class="sop-header">
-                        <h1 class="sop-title">Los Santos Police Department | PIT Maneuver Training</h1>
-                        <div class="sop-subtitle">Precision Immobilization Technique</div>
-                    </div>
-                    <div class="sop-intro">
-                        <p>The Precision Immobilization Technique (PIT) is a high-risk vehicle intervention tactic used to safely terminate high-speed pursuits by forcing a fleeing vehicle to lose control and come to a stop. This maneuver requires extensive training, proper judgment, and strict adherence to department policy.</p>
-                        <p>Only officers who have completed the Advanced Pursuit Training course and received certification from a qualified instructor are authorized to perform PIT maneuvers. All PIT maneuvers require prior approval from a Sergeant or higher-ranking officer.</p>
-                    </div>
-                    <div class="pit-steps">
-                        <!-- Step 1 -->
-                        <div class="pit-step">
-                            <div class="pit-step-img">
-                                <img src="https://i.postimg.cc/DzV9yDNF/pit-maneuvers-1.png" alt="PIT Maneuver Step 1">
-                            </div>
-                            <div class="pit-step-info">
-                                <div class="pit-step-number">STEP 1</div>
-                                <div class="pit-step-title">POSITIONING</div>
-                                <div class="pit-step-description">
-                                    <p>Position your patrol vehicle parallel to the rear quarter of the fleeing vehicle, maintaining a distance of 2-3 feet. Your front bumper should be aligned with the suspect vehicle's rear door.</p>
-                                    <p><strong>Key Points:</strong></p>
-                                    <ul class="sop-list">
-                                        <li>Maintain equal or greater speed to the fleeing vehicle</li>
-                                        <li>Ensure you have a clear escape route</li>
-                                        <li>Verify no pedestrians or civilian vehicles in immediate vicinity</li>
-                                        <li>Communicate your intention to supervisor</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 2 -->
-                        <div class="pit-step">
-                            <div class="pit-step-img">
-                                <img src="https://i.postimg.cc/rspbPLDG/pit-maneuvers-2.png" alt="PIT Maneuver Step 2">
-                            </div>
-                            <div class="pit-step-info">
-                                <div class="pit-step-number">STEP 2</div>
-                                <div class="pit-step-title">CONTACT</div>
-                                <div class="pit-step-description">
-                                    <p>Once properly positioned, gently turn your steering wheel toward the fleeing vehicle to make contact with its rear quarter panel.</p>
-                                    <p><strong>Proper Contact Points:</strong></p>
-                                    <ul class="sop-list">
-                                        <li>Contact should be made with your front bumper to their rear quarter panel</li>
-                                        <li>Apply steady, controlled pressure</li>
-                                        <li>Do not jerk the wheel or oversteer</li>
-                                        <li>Maintain your lane position</li>
-                                    </ul>
-                                    <p><strong>Warning:</strong> Excessive force can cause loss of control of both vehicles.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 3 -->
-                        <div class="pit-step">
-                            <div class="pit-step-img">
-                                <img src="https://i.postimg.cc/L507d0Pc/pit-maneuvers-3.png" alt="PIT Maneuver Step 3">
-                            </div>
-                            <div class="pit-step-info">
-                                <div class="pit-step-number">STEP 3</div>
-                                <div class="pit-step-title">TURN</div>
-                                <div class="pit-step-description">
-                                    <p>As contact is maintained, smoothly turn your steering wheel in the direction of the fleeing vehicle.</p>
-                                    <p><strong>Technique:</strong></p>
-                                    <ul class="sop-list">
-                                        <li>Transfer momentum to induce oversteer in the suspect vehicle</li>
-                                        <li>Apply gentle acceleration to maintain contact pressure</li>
-                                        <li>The goal is to cause the suspect vehicle's rear tires to lose traction</li>
-                                        <li>Do not attempt to "push" the vehicle for extended periods</li>
-                                    </ul>
-                                    <p>The maneuver should be completed within 1-2 seconds of contact.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 4 -->
-                        <div class="pit-step">
-                            <div class="pit-step-img">
-                                <img src="https://i.postimg.cc/wxWns3rw/pit-maneuvers-4.png" alt="PIT Maneuver Step 4">
-                            </div>
-                            <div class="pit-step-info">
-                                <div class="pit-step-number">STEP 4</div>
-                                <div class="pit-step-title">RELEASE & SECURE</div>
-                                <div class="pit-step-description">
-                                    <p>Once the suspect vehicle begins to turn, immediately release contact and counter-steer to maintain control of your patrol vehicle.</p>
-                                    <p><strong>Post-Maneuver Actions:</strong></p>
-                                    <ul class="sop-list">
-                                        <li>Brake smoothly and come to a controlled stop</li>
-                                        <li>Do not continue to push the suspect vehicle</li>
-                                        <li>Position your vehicle to block the suspect's path if necessary</li>
-                                        <li>Call for backup and medical assistance if needed</li>
-                                        <li>Secure the scene and approach with caution</li>
-                                    </ul>
-                                    <p>Remember: Your safety and the safety of the public are paramount.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pit-animation">
-                        <div class="pit-animation-title">PIT MANEUVER IN ACTION</div>
-                        <img src="https://i.postimg.cc/zGTdpfdZ/ezgif-com-animated-gif-maker.gif" alt="PIT Maneuver Animation" class="pit-animation-img">
-                    </div>
-                    <div class="pit-safety">
-                        <div class="pit-safety-title">PIT MANEUVER SAFETY PROTOCOLS</div>
-                        <ul class="pit-safety-list">
-                            <li><strong>Authorization Required:</strong> PIT maneuvers require prior approval from a Sergeant or higher-ranking officer.</li>
-                            <li><strong>Eligible Suspects:</strong> Only for fleeing vehicles after committing a violent felony or DUI with injury risk.</li>
-                            <li><strong>Environmental Conditions:</strong> Must be dry pavement, good visibility, and no adverse weather.</li>
-                            <li><strong>Speed Limit:</strong> Recommended maximum speed of 35 mph.</li>
-                            <li><strong>Vehicle Type:</strong> Only standard passenger vehicles.</li>
-                            <li><strong>Location Restrictions:</strong> Prohibited in residential areas, near schools, or crowded zones.</li>
-                            <li><strong>Child Safety:</strong> Prohibited when children are visible in the suspect vehicle.</li>
-                            <li><strong>Medical Considerations:</strong> Consider potential medical emergencies.</li>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Patrol the streets and respond to calls</li>
+                            <li>Do traffic stops and checks</li>
+                            <li>Help the public and enforce the law</li>
+                            <li>Write up reports and evidence</li>
+                            <li>Listen to and follow directions from senior officers</li>
                         </ul>
                     </div>
-                    <div class="pit-video">
-                        <div class="pit-video-title">OFFICIAL TRAINING VIDEO</div>
-                        <div class="pit-video-container">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Senior Constable
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Lead basic police jobs and guide Constables</li>
+                            <li>Handle tougher situations</li>
+                            <li>Help teach and support newer members</li>
+                            <li>Start taking on more responsibility</li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <!-- Leadership Page -->
-            <div id="leadership" class="page">
-                <div class="page-content">
-                    <div class="logo-bottom" style="margin-top: 0;">
-                        <div class="logo-bottom-img">
-                            <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
-                        </div>
-                        <div class="logo-bottom-text">LOS SANTOS POLICE DEPARTMENT</div>
-                        <div class="logo-bottom-tagline">CITY OF LOS SANTOS - SAN ANDREAS</div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Incremental Senior Constable
                     </div>
-                    <div class="sop-header">
-                        <h1 class="sop-title">Los Santos Police Department | Department Leadership</h1>
-                        <div class="sop-subtitle">Command Structure</div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Lead more serious jobs and guide lower ranks</li>
+                            <li>Handle and maintain difficult situations</li>
+                            <li>Train and teach new members and students</li>
+                            <li>Take on more responsibility on patrol</li>
+                        </ul>
                     </div>
-                    <div class="sop-intro">
-                        <p>The Los Santos Police Department is led by a dedicated team of experienced law enforcement professionals committed to maintaining the highest standards of integrity, professionalism, and community service. This leadership team oversees all operations, strategic planning, and policy implementation throughout the city.</p>
-                        <p>Our command structure ensures clear lines of authority, effective communication, and accountability at all levels of the organization. Each leader brings years of experience and specialized expertise to their role, working together to serve and protect the citizens of Los Santos.</p>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Leading Senior Constable
                     </div>
-                    <div class="leadership-grid">
-                        <!-- Chief -->
-                        <div class="leader-card">
-                            <div class="leader-img">
-                                <img src="https://i.postimg.cc/fL25k89j/mike-stand.png" alt="Chief Mike Stand">
-                            </div>
-                            <div class="leader-info">
-                                <div class="leader-position">CHIEF OF POLICE</div>
-                                <div class="leader-name">Mike Stand</div>
-                                <div class="leader-bio">
-                                    Chief Mike Stand is a towering figure of Norse heritage, known throughout the department as a modern-day Viking warrior with an unyielding sense of justice. Standing at 6'8" with a thunderous voice and a braided beard, he leads with a mix of ancient honor and modern policing strategy. A former U.S. Marine, Stand believes in strength, loyalty, and protecting the weak. He's known to roar "BY MY AXE!" during roll call and has a ceremonial battle-axe mounted behind his desk. Despite his intimidating presence, he's deeply respected for his fairness and unwavering moral code. He runs the LSPD with the motto: "Strength to Serve, Honor to Protect."
-                                </div>
-                                <div class="leader-contact">
-                                    <strong>Badge #:</strong> 001<br>
-                                    <strong>Term:</strong> Current<br>
-                                    <strong>Contact:</strong> chief.stand@lspd.gov
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Deputy Chief -->
-                        <div class="leader-card">
-                            <div class="leader-img">
-                                <img src="https://i.postimg.cc/258kqKvW/lspd-deputy-chief.png" alt="Deputy Chief Richard Stirrling">
-                            </div>
-                            <div class="leader-info">
-                                <div class="leader-position">DEPUTY CHIEF</div>
-                                <div class="leader-name">Richard Stirrling</div>
-                                <div class="leader-bio">
-                                    Deputy Chief Richard Stirrling is the iron fist of the LSPD Criminal Investigation Division. Known for his cold, calculating demeanor and absolute intolerance for disobedience, he runs CID with the philosophy: "Do what I say, when I say it—no questions, no excuses." A former FBI profiler, Stirrling has cracked some of the city's most complex cases through sheer force of will and relentless interrogation. Officers whisper that he once stared down a suspect for 11 hours straight until the man confessed. He believes rules exist to be enforced, not debated, and has zero patience for inefficiency. His office door reads: "Obedience is the First Virtue."
-                                </div>
-                                <div class="leader-contact">
-                                    <strong>Badge #:</strong> 002<br>
-                                    <strong>Service:</strong> 22 Years<br>
-                                    <strong>Contact:</strong> deputy.stirrling@lspd.gov
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Commander -->
-                        <div class="leader-card">
-                            <div class="leader-img">
-                                <img src="https://i.postimg.cc/KzRjB3Gc/andreas-san.png" alt="Commander Andreas San">
-                            </div>
-                            <div class="leader-info">
-                                <div class="leader-position">COMMANDER</div>
-                                <div class="leader-name">Andreas San</div>
-                                <div class="leader-bio">
-                                    Commander Andreas San stands at 4'11", but don't let his size fool you—his temper is legendary. Known as "The Tiny Tyrant," San is a whirlwind of rage and precision, capable of reducing full-grown officers to nervous stammers with a single glare. A tactical genius with a PhD in Criminal Psychology, he oversees Special Operations with military exactness. His voice may be high-pitched, but when he yells "MOVE!" during drills, everyone obeys instantly. Rumor has it he once kicked down a steel door during a raid while screaming in Korean. Despite his anger, he's beloved for his unmatched competence and fierce loyalty to his team. His desk sign reads: "I'M SMALL, BUT I BREAK KNEES."
-                                </div>
-                                <div class="leader-contact">
-                                    <strong>Badge #:</strong> 003<br>
-                                    <strong>Service:</strong> 19 Years<br>
-                                    <strong>Contact:</strong> commander.san@lspd.gov
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Vacant Captain -->
-                        <div class="leader-card vacant">
-                            <div class="leader-img"></div>
-                            <div class="leader-info">
-                                <div class="leader-position">CAPTAIN</div>
-                                <div class="leader-name">POSITION VACANT</div>
-                                <div class="leader-bio">
-                                    The Captain position is currently vacant. The department is seeking a qualified leader to oversee the Patrol Division. Applications are open to internal candidates with proven leadership and operational excellence.
-                                </div>
-                                <div class="leader-contact">
-                                    <strong>Status:</strong> Hiring Process Open<br>
-                                    <strong>Division:</strong> Patrol<br>
-                                    <strong>Contact:</strong> personnel@lspd.gov
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Vacant Lieutenant -->
-                        <div class="leader-card vacant">
-                            <div class="leader-img"></div>
-                            <div class="leader-info">
-                                <div class="leader-position">LIEUTENANT</div>
-                                <div class="leader-name">POSITION VACANT</div>
-                                <div class="leader-bio">
-                                    The Lieutenant position is open. We are looking for experienced officers with strong leadership skills to supervise shifts and manage critical incidents.
-                                </div>
-                                <div class="leader-contact">
-                                    <strong>Status:</strong> Hiring Process Open<br>
-                                    <strong>Division:</strong> Operations<br>
-                                    <strong>Contact:</strong> personnel@lspd.gov
-                                </div>
-                            </div>
-                        </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Take charge on jobs when sergeants aren't around</li>
+                            <li>Train and teach new members and students</li>
+                            <li>Assist in admin work and basic division management</li>
+                            <li>Set a PROFESSIONAL EXAMPLE FOR OTHERS</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Sergeant
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Supervise Constables - Leading Senior Constables</li>
+                            <li>Make sure reports and jobs are done professionally and correctly</li>
+                            <li>Step into incident to lead</li>
+                            <li>Help manage training and on-duty performance</li>
+                            <li>Beginning to Take on Shift management when Senior Sergeants aren't around</li>
+                            <li>Dealing with Basic division complaints</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Incremental Sergeant
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Same Responsibilities as a sergeant (Awaiting Senior Sergeant Exam)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Senior Sergeant
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Taking on Shift management</li>
+                            <li>Organising Division roster and complaints</li>
+                            <li>Dealing with complex issues or complaints within division</li>
+                            <li>Oversee teams or divisions</li>
+                            <li>Assist inspectors with larger tasks</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Inspector
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Run Operations and manage entire shifts as a Duty Commander</li>
+                            <li>Approve Tactics and strategies on patrol (i.e pits, snatch / grabs, etc)</li>
+                            <li>Support Sergeants and Senior Staff</li>
+                            <li>Organising police documentation and staff</li>
+                            <li>Assist in Division Management as a division Command</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Superintendent
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Lead whole commands and specialist areas</li>
+                            <li>Approve high risk jobs or tactics</li>
+                            <li>Handle major decisions</li>
+                            <li>Work with the community</li>
+                            <li>Operate divisions</li>
+                            <li>Make sure higher officers are remaining professional and following SOP's</li>
+                            <li>Approve promotions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Chief Superintendent
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Oversee large locations and commands (Metropolitan / Regional)</li>
+                            <li>Manage resources and 'big picture plans'</li>
+                            <li>Help Lead whole police operations</li>
+                            <li>Lead during critical incidents</li>
+                            <li>Approve promotions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Assistant Commissioner / Deputy Commissioner
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Approve promotions, reforms, or big changes</li>
+                            <li>Handle Media, and public matters</li>
+                            <li>Ensure professionalism</li>
+                            <li>Handle and update documentation and SOP</li>
+                            <li>Make Sure everyone is following SOP and is professional</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rank-level">
+                    <div class="rank-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Commissioner Of Police
+                    </div>
+                    <div class="rank-responsibilities">
+                        <strong>Main responsibilities:</strong>
+                        <ul>
+                            <li>Make all final decisions</li>
+                            <li>Set the direction of the whole force</li>
+                            <li>Handle Media, and public matters</li>
+                            <li>Ensure professionalism</li>
+                            <li>Handle and update documentation and SOP</li>
+                            <li>Make Sure everyone is following SOP and is professional</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- Meet Leaders Modal -->
+    <div id="meetLeadersModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-meet-leaders">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Meet Our Leadership
+            </h2>
+            <div class="leader-container">
+                <div class="leader-card">
+                    <div class="leader-image">DM</div>
+                    <div class="leader-name">Dan Murphy</div>
+                    <div class="leader-position">Commissioner</div>
+                    <div class="leader-bio">Oversees the entire San Andreas Police Force and sets strategic direction for the organization.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">KM</div>
+                    <div class="leader-name">Kayce McIntonish</div>
+                    <div class="leader-position">Deputy Commissioner</div>
+                    <div class="leader-bio">Assists the Commissioner in managing operations and ensuring departmental goals are met.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">FM</div>
+                    <div class="leader-name">Frank McIntonish</div>
+                    <div class="leader-position">Assistant Commissioner</div>
+                    <div class="leader-bio">Manages specialized divisions and supports high-level administrative functions.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">ST</div>
+                    <div class="leader-name">Sasha Turn</div>
+                    <div class="leader-position">Commander</div>
+                    <div class="leader-bio">Leads major commands and coordinates operations across multiple divisions.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">CT</div>
+                    <div class="leader-name">Chace Turn</div>
+                    <div class="leader-position">Superintendent</div>
+                    <div class="leader-bio">Manages large-scale operations and ensures effective resource allocation.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">AR</div>
+                    <div class="leader-name">Amoura Rose</div>
+                    <div class="leader-position">Inspector</div>
+                    <div class="leader-bio">Supervises daily operations and ensures compliance with departmental policies.</div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image">SK</div>
+                    <div class="leader-name">Scott Kenway</div>
+                    <div class="leader-position">Senior Sergeant</div>
+                    <div class="leader-bio">Manages shifts and provides on-the-ground leadership to patrol units.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIT Technique Modal -->
+    <div id="pitModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-pit">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                PIT Maneuver Technique
+            </h2>
+            <div class="pit-visualization">
+                <h3 style="color: #1e90ff; margin-bottom: 15px;">PIT Maneuver Step-by-Step</h3>
+                <p>The Precision Immobilization Technique (PIT) involves the pursuing vehicle making contact with the rear quarter panel of the fleeing vehicle, causing it to rotate and come to a stop.</p>
+                <div class="pit-steps">
+                    <div class="pit-step">
+                        <div class="step-number">1</div>
+                        <img src="https://i.postimg.cc/DzV9yDNF/pit-maneuvers-1.png" alt="PIT Maneuver Step 1">
+                        <div class="step-description">Positioning</div>
+                        <p>The police vehicle positions itself slightly ahead and to the side of the suspect vehicle, preparing for the maneuver.</p>
+                    </div>
+                    <div class="pit-step">
+                        <div class="step-number">2</div>
+                        <img src="https://i.postimg.cc/rspbPLDG/pit-maneuvers-2.png" alt="PIT Maneuver Step 2">
+                        <div class="step-description">Contact</div>
+                        <p>The police vehicle makes controlled contact with the rear quarter panel of the suspect vehicle.</p>
+                    </div>
+                    <div class="pit-step">
+                        <div class="step-number">3</div>
+                        <img src="https://i.postimg.cc/L507d0Pc/pit-maneuvers-3.png" alt="PIT Maneuver Step 3">
+                        <div class="step-description">Rotation</div>
+                        <p>This contact causes the suspect vehicle to rotate due to the shift in its center of gravity.</p>
+                    </div>
+                    <div class="pit-step">
+                        <div class="step-number">4</div>
+                        <img src="https://i.postimg.cc/zGTdpfdZ/ezgif-com-animated-gif-maker.gif" alt="PIT Maneuver Step 4">
+                        <div class="step-description">Stop</div>
+                        <p>The suspect vehicle completes a 180° turn and comes to a stop, allowing officers to safely approach.</p>
+                    </div>
+                </div>
+                <div class="pit-explanation">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Key Points:
+                    </h4>
+                    <ul>
+                        <li><strong>Speed Control:</strong> The maneuver should be performed at speeds that allow for safe control of both vehicles.</li>
+                        <li><strong>Angle of Approach:</strong> A proper angle is crucial to achieve the desired rotation without causing excessive damage.</li>
+                        <li><strong>Vehicle Positioning:</strong> The police vehicle must be positioned correctly to make contact with the rear quarter panel.</li>
+                        <li><strong>Communication:</strong> Officers should coordinate with each other before initiating the maneuver.</li>
+                        <li><strong>Public Safety:</strong> Always consider the safety of civilians and other vehicles in the vicinity.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipment Modal -->
+    <div id="equipmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-equipment">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Standard Equipment
+            </h2>
+            <div class="equipment-details">
+                <div class="equipment-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Standard Equipment
+                    </h4>
+                    <ul class="equipment-list">
+                        <li>Glock</li>
+                        <li>Taser</li>
+                        <li>Baton/Flashlight</li>
+                        <li>Handcuffs</li>
+                        <li>Flashlight</li>
+                        <li>Armor</li>
+                        <li>IFAKs</li>
+                        <li>Bodycam</li>
+                        <li>Police Badge</li>
+                        <li>Fingerprint Tablet</li>
+                        <li>MDT</li>
+                        <li>Camera</li>
+                        <li>Phone</li>
+                        <li>Evidence Bags</li>
+                    </ul>
+                </div>
+                <div class="equipment-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Restricted Equipment
+                    </h4>
+                    <ul class="equipment-list">
+                        <li>Fully Automatic Firearms - Longarm Certified Only</li>
+                        <li>Shotguns - Tactical Operators Only</li>
+                        <li>Beanbag Shotguns - Longarm Certified Only</li>
+                        <li>Flash Grenades or Explosives - Tactical Operators Only</li>
+                    </ul>
+                    <p><strong>Note:</strong> Tactical Operators includes AFP tactical operators too</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use of Force Modal -->
+    <div id="forceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-force">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Use of Force Guidelines
+            </h2>
+            <div class="use-of-force-details">
+                <div class="force-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        When Police May Use Reasonable Force
+                    </h4>
+                    <ul class="force-list">
+                        <li>To arrest a person</li>
+                        <li>To carry out a search</li>
+                        <li>For self-defense of themselves or others</li>
+                        <li>To prevent suicide or self-harm</li>
+                    </ul>
+                </div>
+                <div class="force-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Tactical Options Available
+                    </h4>
+                    <ul class="force-list">
+                        <li>Taser</li>
+                        <li>Baton</li>
+                        <li>Handcuffs</li>
+                        <li>Firearm</li>
+                    </ul>
+                    <p>Some specialist units may have additional tactical options such as flashbang grenades or beanbag shotguns.</p>
+                </div>
+                <div class="force-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Principles of Proportionality
+                    </h4>
+                    <p>Whenever Police use force, it must be reasonable and proportionate to the situation.</p>
+                    <p><strong>Example:</strong> If you are confronted by an offender with a knife, it would be reasonable to draw your firearm or taser. If they advance towards you, and you believe they are going to seriously injure or kill you, it would be reasonable for you to discharge your taser or firearm.</p>
+                    <p><strong>Example:</strong> It would be unreasonable to taser a suspect who is handcuffed and cooperative.</p>
+                </div>
+                <div class="warning-box">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Excessive Force Consequences
+                    </h4>
+                    <p>Excessive force may result in criminal charges (such as assault), lawsuits, and termination of employment.</p>
+                </div>
+                <div class="force-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Shooting at Vehicles
+                    </h4>
+                    <p>Police may only shoot at vehicles if:</p>
+                    <ul class="force-list">
+                        <li>The occupants of the vehicle are shooting/have shot and likely to continue to shoot</li>
+                        <li>The vehicle is being used as a weapon to kill or seriously injure others</li>
+                    </ul>
+                    <p><strong>Important:</strong> Police must not shoot at a fleeing vehicle unless the above criteria applies.</p>
+                </div>
+                <div class="force-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Active Armed Offender (AAO)
+                    </h4>
+                    <p>An armed offender who is:</p>
+                    <ul class="force-list">
+                        <li>Actively engaged in killing or attempting to kill people</li>
+                        <li>Who has demonstrated their intention to continue to do so while having access to additional potential victims</li>
+                        <li>Are demonstrating hostile intentions with a firearm or are about to demonstrate hostile intentions with a firearm</li>
+                    </ul>
+                    <p><strong>Legal Obligation:</strong> Police are LEGALLY OBLIGED to stop an active armed offender and use whatever force is necessary including firearms (( OOC: within server rules )). Tactical officers are to be deployed to any active armed offender situation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incident Command System Modal -->
+    <div id="icsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-ics">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Incident Command System
+            </h2>
+            <div class="incident-command-details">
+                <div class="command-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Hostage Situations
+                    </h4>
+                    <p>When officers respond to a hostage situation, the most senior officer or a TAC unit should take scene command. It is recommended that the first experienced officer to arrive on scene should take the role of negotiator.</p>
+                    <p>The scene commander is in charge of directing each department on scene to assist with securing an area, directing traffic as well as citizens of the public to safe areas. They will also request HWY to prepare for a pursuit, allow time for POLAIR to arrive, etc.</p>
+                    <p><strong>Important:</strong> The scene command is the only officer to be directing units.</p>
+                </div>
+                <div class="command-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Negotiator Responsibilities
+                    </h4>
+                    <p>Negotiators must be able to provide their Scene Commander with an informative summary of the events that are occurring. Details need to include the following:</p>
+                    <ul class="command-list">
+                        <li>Vehicles involved</li>
+                        <li>Suspects inside</li>
+                        <li>Amount of hostages</li>
+                        <li>Amount of injured people, if any</li>
+                        <li>External threats</li>
+                        <li>Weapons involved</li>
+                        <li>Demands</li>
+                    </ul>
+                    <p>During an active hostage situation, priority communications shall be in effect and radio usage MUST be kept to a minimum until the situation is concluded.</p>
+                </div>
+                <div class="command-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Demands
+                    </h4>
+                    <p><strong>BOTH POLICE AND CIVILIAN HOSTAGES EQUATE TO ONE DEMAND PER HOSTAGE</strong></p>
+                    <div class="warning-box">
+                        <h4 style="display: flex; align-items: center;">
+                            <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                            Demand Limitations
+                        </h4>
+                        <ul class="command-list">
+                            <li>A maximum of $100,000 will be used as currency in exchange for all hostage’s safe return. If this is taken out of a personal fund, please let a command member know to reimburse you.</li>
+                            <li>Maximum of 3 demands</li>
+                            <li>Prisoners may not be released in exchange for a hostage under any circumstances</li>
+                            <li>Weapons (including confiscated weapons) may not be supplied under any circumstances</li>
+                            <li>Demands can’t involve further harming or jeopardizing the safety of any other person</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="command-section">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        Heist / Bank Rules (KN Rule)
+                    </h4>
+                    <p>Police Limit: Maximum of 8 police officers, with exceptions for additional units during pursuit if necessary. (Small banks are a max of 6 Police Officers)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Miranda Rights Modal -->
+    <div id="mirandaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-miranda">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Miranda Rights Procedures
+            </h2>
+            <div class="miranda-details">
+                <div class="miranda-text">
+                    <h3>Standard Warning</h3>
+                    <p>"You have the right to remain silent. Anything you say can and will be used against you in a court of law. You have the right to an attorney. If you cannot afford an attorney, one will be provided for you."</p>
+                    <h3 style="margin-top: 20px;">When to Administer</h3>
+                    <p>Miranda Rights must be administered when:</p>
+                    <ul>
+                        <li>The individual is in custody (not free to leave)</li>
+                        <li>The individual is being interrogated or questioned</li>
+                        <li>The questioning is likely to elicit an incriminating response</li>
+                    </ul>
+                    <p>Failure to provide Miranda warnings when required may result in statements being inadmissible in court.</p>
+                </div>
+                <div class="miranda-requirements">
+                    <h4 style="display: flex; align-items: center;">
+                        <img src="" alt="" style="height: 24px; margin-right: 10px; display: none;">
+                        PROPER ADMINISTRATION
+                    </h4>
+                    <p>To properly administer Miranda Rights:</p>
+                    <ul>
+                        <li>Ensure the individual is in custody</li>
+                        <li>Clearly state each right using the approved wording</li>
+                        <li>Confirm understanding by asking "Do you understand these rights?"</li>
+                        <li>Obtain voluntary waiver before proceeding with questioning</li>
+                        <li>Document the administration in your report</li>
+                        <li>If the individual invokes their right to remain silent or requests an attorney, questioning must cease immediately</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Safety Protocols Modal -->
+    <div id="safetyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-safety">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                PIT Maneuver Safety Protocols
+            </h2>
+            <div class="safety-protocols">
+                <div class="protocol-section">
+                    <div class="protocol-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Pursuit Initiation Guidelines
+                    </div>
+                    <p>When a Pursuit is initiated, Police must consider public safety balanced against the need to pursue. Simply put…if the risk to the public isn't worth the reward of catching the suspect, terminate.</p>
+                    <div class="warning-box">
+                        <strong>2 CAR SPACING IN PURSUITS UNTIL 5 MINUTE TIMER STOPS</strong>
+                    </div>
+                    <p>When in a pursuit, maintain a pursuit line. Don't try and overtake each other. Maintain a safe distance from each other, move aside for Highway Patrol to take primary (first car behind the suspect).</p>
+                    <p>The P.I.T. Maneuver can only be used by the leading car, ramming is not to be used. Only P.I.T.s.</p>
+                </div>
+                <div class="protocol-section">
+                    <div class="protocol-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Tyre Deflation Devices (Spike Strips)
+                    </div>
+                    <p>Spike strips can be used to deflate an evading vehicle's tyres. Spikes pose a significant risk to motorcyclists and shouldn't be used unless the suspect is posing a real serious and imminent danger to others.</p>
+                </div>
+                <div class="protocol-section">
+                    <div class="protocol-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Imperative Pursuits
+                    </div>
+                    <p>Can only be authorised by the highest Highway Patrolman on duty. If no one is online, then High Command can authorise, followed by the next highest ranks.</p>
+                    <p>An imperative pursuit can be authorised when:</p>
+                    <ul>
+                        <li>Pursuit has lasted longer than 5 minutes AND</li>
+                        <li>Posing significant danger to the public, OR</li>
+                        <li>Has rammed cars or trying to ram cars, OR</li>
+                        <li>Is a hostile vehicle (using a vehicle as a weapon)</li>
+                    </ul>
+                </div>
+                <div class="protocol-section">
+                    <div class="protocol-title">
+                        <img src="" alt="" style="height: 28px; margin-right: 10px; display: none;">
+                        Pursuit Resolution Techniques
+                    </div>
+                    <table class="protocol-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>When it can be used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>P.I.T Maneuver (Pursuit Intervention Technique)</strong></td>
+                                <td>When Police use the front of the Police car to nudge the rear quarter panel of the fleeing vehicle to cause them to spin out and lose control.</td>
+                                <td>Imperative Pursuits</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rolling Box</strong></td>
+                                <td>When Police cars surround the fleeing vehicle forming a box, and slow down eventually to a stop.</td>
+                                <td>Any time</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ramming</strong></td>
+                                <td>When Police ram a vehicle in a controlled manner so as to redirect the offending vehicle or force it into a position. Smashing into a car at high speed is not safe, nor authorised.</td>
+                                <td>Hostile Vehicle (person using a vehicle as a weapon, i.e. running over people, ramming cars etc)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shooting Tyres</strong></td>
+                                <td>When Police shoot at tyres to disable the vehicle.</td>
+                                <td>Hostile Vehicle or Active Armed Offender (i.e. offender shooting at Police, civilians etc). This is an absolute last resort.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Schedule Modal -->
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-training">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                PIT Training Schedule
+            </h2>
+            <div class="use-of-force-details">
+                <p>For detailed training schedules and upcoming sessions, please visit our official Discord channel:</p>
+                <p><a href="https://discord.gg/bRVTVfBTgd" target="_blank" style="color: #1e90ff; text-decoration: underline;">PIT Training Schedule</a></p>
+                <p>Our training coordinator will post all scheduled sessions, including dates, times, and requirements.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patrol Procedures Modal -->
+    <div id="patrolModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-patrol">&times;</span>
+            <h2 style="color: #1e90ff; text-align: center; margin-bottom: 30px;">
+                <img src="" alt="" style="height: 36px; vertical-align: middle; margin-right: 10px; display: none;">
+                Patrol Procedures
+            </h2>
+            <div class="use-of-force-details">
+                <h3 style="color: #1e90ff; margin-bottom: 20px; font-size: 28px;">Radio Communications</h3>
+                <p>Officers on duty must be connected to radio channels (1) unless they are on a tactical channel or given orders from a higher up.</p>
+                <p>Officers must use radio etiquette whilst using the radio, transmissions must be professional and a brief summary of the situation to reduce clutter amongst transmissions. This means when communicating on radio officers are not to swear, conversate about non-related topics, yell, scream, etc. Any officers who fail to adhere to this will be met with disciplinary action.</p>
+                <p>Radio communications are an important area of policing and as such must be kept to a high standard.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Probationary Constable</h3>
+                <p>On completion of the recruitment program where they are known as a Policing Student an officer will be made a Probationary Constable for a minimum of 1 week/s.</p>
+                <p>During this time the Probationary Officer (also known as “Probie”) is not permitted to patrol by themselves unless authorised by a FTO Supervisor (RSTB).</p>
+                <p>You will be expected to ride along with more experienced officers and learn. Specifically you will need to learn:</p>
+
+                <h4 style="color: #1e90ff; margin: 20px 0 10px 0;">Law</h4>
+                <ul>
+                    <li>Search Powers</li>
+                    <li>Arrest Powers</li>
+                    <li>Move On Powers</li>
+                    <li>Entry Powers</li>
+                </ul>
+
+                <h4 style="color: #1e90ff; margin: 20px 0 10px 0;">Procedure</h4>
+                <ul>
+                    <li>Response Priority</li>
+                    <li>Arrest Procedure</li>
+                    <li>Issuing tickets</li>
+                    <li>Caution and rights</li>
+                    <li>Use of Force</li>
+                    <li>Impound Procedure</li>
+                    <li>Report writing</li>
+                    <li>Major Scenes (establishment of scene command, negotiators etc)</li>
+                    <li>First Aid</li>
+                </ul>
+
+                <h4 style="color: #1e90ff; margin: 20px 0 10px 0;">Driving</h4>
+                <ul>
+                    <li>Pursuit Driving</li>
+                    <li>Emergency Response Driving</li>
+                </ul>
+
+                <p>Once you feel confident you have the required knowledge and you have been ticked off by a Certified FTO you may ask an FTO Supervisor to conduct a knowledge and skills assessment. If they deem you suitable for promotion you will be promoted to Constable.</p>
+                <p>If you are deemed unsuitable you will be given another opportunity to be assessed. If you repeatedly cannot pass your assessment then you may be removed from the Probationary Constable program and your employment will be terminated.</p>
+                <p>It is your responsibility to read the policies, procedures, and seek guidance from more experienced Police Officers.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Impounds</h3>
+                <p>Police may impound a vehicle and disqualify a person from driving for the following reasons:</p>
+                <ul>
+                    <li>Driving whilst disqualified or suspended</li>
+                    <li>More than 100km/h over the speed limit</li>
+                    <li>Engaging in a Police Pursuit</li>
+                    <li>Street Racing</li>
+                    <li>Aggravated Burnouts</li>
+                    <li>Dangerous or Reckless Driving</li>
+                    <li>Shooting from a moving vehicle</li>
+                </ul>
+                <p>A person may be disqualified from driving for up to a maximum of 1 week.</p>
+                <p>Impounds can be up to 1 week for any of the above offences.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Incident Reports & Warrants</h3>
+                <p>A report is to be an informative summary of events which led to an arrest of a subject. These must be based on facts and not assumptions.</p>
+                <p>A report is always to be made whether a crime has been committed or a subject is wanted in questioning of a crime.</p>
+                <p>A warrant can be used on two occasions without approval from a magistrate:</p>
+                <ul>
+                    <li>Warrant for Arrest</li>
+                    <li>Warrant for Questioning</li>
+                </ul>
+                <p>A warrant for arrest means that a positive ID of a suspect has been obtained and that they are now in the Police system which is available for all officers to see once completed successfully.</p>
+                <p>A warrant for questioning means that the suspect has not been positively identified and that they are wanted for questioning in regards to a crime, whether they committed that crime or witnessed it.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Warrant Expiry</h3>
+                <p>As of 23th December 2024, all warrants have a 2 week expiry. If someone is found with a warrant more than 2 weeks old, warrants are to be cleared and charges for that warrant are to be dropped.</p>
+                <p>Warrants written by the Department of Communities and Justice (DCJ) do not have an expiry unless stated otherwise by the issuing judge or magistrate or the Chief Of Justice.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Evidence Storage</h3>
+                <p>All evidence is to be stored in a locker number that corresponds to the report number.</p>
+                <p>Example: If your incident report number is 54, then you put all evidence from that incident in evidence locker 54.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Vehicles</h3>
+                <p>When taking out a vehicle, have consideration for what other vehicles are on the road. We always want at least one or two paddy wagons on patrol to pick up any prisoners, and we want more marked than unmarked vehicles to ensure we have a strong enough visual presence.</p>
+                <p>You are required to use the vehicles assigned to your rank and division, see the SAPF Vehicle Roster for more information.</p>
+                <p>The deployment of vehicles is to the discretion of the shift supervisor (Sgt+).</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Professional Standards Command</h3>
+                <p>The San Andreas Police Professional Standards Command is a specialist unit that deals with all matters involving misconduct by police. The professional standards command is obtainable at Chief Inspector unless declared otherwise by Commissioner Scott Kenway. Units who are within Professional Standards Command have the ability to enact the following:</p>
+                <ul>
+                    <li>Issue Warnings</li>
+                    <li>Issue Strikes</li>
+                    <li>Send Police off shift</li>
+                    <li>Suspend Police without pay</li>
+                    <li>Terminate Police</li>
+                </ul>
+                <p>Units who abuse this power will face action including charges and termination from the San Andreas Police. Alongside this police who enact suspensions or terminations without being in professional standards command will receive disciplinary action.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Transfers</h3>
+                <p>Minimum rank to apply for a transfer out of General Duties is Inc/Senior Constable except for Highway which only requires Constable.</p>
+                <p>To transfer to another division, members need approval from their current division Officer in Charge (OIC) AND the OIC for the division they are seeking transfer to. This is to ensure we have appropriate numbers in each division and that division OICs have an opportunity to backfill positions.</p>
+                <p>OICs will not unreasonably prevent a person transfers out of their division and will provide justification to members if they prevent a person transferring out. Members can appeal this decision to command if they feel the decision is unreasonable.</p>
+
+                <h3 style="color: #1e90ff; margin: 30px 0 20px 0; font-size: 28px;">Promotions</h3>
+                <p>Division OICs are responsible for promoting people within their division.</p>
+                <p>Promotions are merit based not time based (although this is a consideration).</p>
+                <p>Promotions usually occur at the weekly or fortnightly department meeting however may occur outside of this too.</p>
+                <p>Division OICs may promote people to one rank below their own rank (i.e. A Senior Sergeant can only promote a person as high as Sergeant).</p>
+                <p>Command and Executive members may also promote people as they see fit.</p>
+                <p>Officers seeking promotion should discuss career development opportunities with their division OIC. OICs are responsible for ensuring the professional development of their members.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="https://i.postimg.cc/L4yskdQT/unnamed-Copy.png" alt="LSPD Logo">
+                <h3 style="display: flex; align-items: center; justify-content: center;">
+                    <img src="" alt="" style="height: 60px; margin-right: 15px; display: none;">
+                    San Andreas Police Force
+                </h3>
+                <div style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 15px;">
+                    <img src="https://i.postimg.cc/FKdyTvdn/re.png" alt="Astral Gaming Logo" style="height: 50px;">
+                    <p style="color: #aaa; font-size: 14px; margin: 0;">Built for Astral Gaming by Dan & Bing mostly bing</p>
                 </div>
-                <div>Los Santos Police Department</div>
-                <div>888 Justice Way, Los Santos, San Andreas 90210</div>
-                <div>© 2025 Los Santos Police Department. All Rights Reserved.</div>
-                <div>For Internal Use Only - Unauthorized Access Prohibited</div>
+                <p class="copyright">© 2023 San Andreas Police Force. All rights reserved. In case of emergency, dial 911.</p>
             </div>
         </div>
     </footer>
+
     <script>
-        // Get all navigation links and pages
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pages = document.querySelectorAll('.page');
-        // Function to change page
-        function showPage(pageId) {
-            // Hide all pages
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-            // Show selected page
-            const selectedPage = document.getElementById(pageId);
-            if (selectedPage) {
-                selectedPage.classList.add('active');
-            }
-            // Update active nav link
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-            // Find and activate the corresponding nav link
-            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            // Reset animations for the new page
+        // Hide loading overlay after page loads
+        window.addEventListener('load', function() {
             setTimeout(() => {
-                const page = document.getElementById(pageId);
-                if (page) {
-                    const animatedElements = page.querySelectorAll('.animated, .sop-section, .announcement, .leader-card, .news-item');
-                    animatedElements.forEach(el => {
-                        if (el.style.animation) {
-                            el.style.animation = 'none';
-                            el.offsetHeight; // Trigger reflow
-                            el.style.animation = null;
-                        }
-                    });
-                }
-            }, 50);
-        }
-        // Add click event listeners to nav links
-        document.addEventListener('click', function(e) {
-            // Check if clicked element or its parent has data-page attribute
-            const target = e.target.closest('[data-page]');
-            if (target) {
-                e.preventDefault();
-                const pageId = target.getAttribute('data-page');
-                showPage(pageId);
-            }
+                document.getElementById('loadingOverlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingOverlay').style.display = 'none';
+                }, 500);
+            }, 1000);
         });
-        // Initialize with home page
-        showPage('home');
-        // Add hover effect to logo
-        const logo = document.querySelector('.logo');
-        if (logo) {
-            logo.addEventListener('mouseenter', () => {
-                logo.style.transform = 'scale(1.1)';
-                logo.style.filter = 'brightness(1.3)';
+
+        // Navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        
+        // Add event listeners to navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Hide all sections
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Get target section
+                const targetSection = this.getAttribute('data-section');
+                
+                // Show target section with fade in
+                const sectionToShow = document.getElementById(targetSection);
+                if (sectionToShow) {
+                    sectionToShow.style.display = 'block';
+                    setTimeout(() => {
+                        sectionToShow.classList.add('active');
+                    }, 10);
+                    
+                    // Scroll to section
+                    sectionToShow.scrollIntoView({ behavior: 'smooth' });
+                }
             });
-            logo.addEventListener('mouseleave', () => {
-                logo.style.transform = 'scale(1)';
-                logo.style.filter = 'brightness(1)';
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all sections (triggers fade out)
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Wait for fade out, then hide all
+                setTimeout(() => {
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    // Get target section
+                    const targetSection = this.getAttribute('data-section');
+                    // Show target section with fade/slide in
+                    const sectionToShow = document.getElementById(targetSection);
+                    if (sectionToShow) {
+                        sectionToShow.style.display = 'block';
+                        setTimeout(() => {
+                            sectionToShow.classList.add('active');
+                        }, 10);
+                        // Scroll to section
+                        sectionToShow.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 500); // match section transition duration
+            });
+        });
+
+        // Get the modals
+        var chainModal = document.getElementById("chainModal");
+        var meetLeadersModal = document.getElementById("meetLeadersModal");
+        var pitModal = document.getElementById("pitModal");
+        var forceModal = document.getElementById("forceModal");
+        var icsModal = document.getElementById("icsModal");
+        var mirandaModal = document.getElementById("mirandaModal");
+        var safetyModal = document.getElementById("safetyModal");
+        var trainingModal = document.getElementById("trainingModal");
+        var equipmentModal = document.getElementById("equipmentModal");
+        var patrolModal = document.getElementById("patrolModal");
+
+        // Get the buttons that open the modals
+        var chainBtn = document.getElementById("view-structure");
+        var meetLeadersBtn = document.getElementById("meet-leaders");
+        var pitBtn = document.getElementById("view-technique");
+        var forceBtn = document.getElementById("view-force");
+        var icsBtn = document.getElementById("view-ics");
+        var mirandaBtn = document.getElementById("view-miranda");
+        var safetyBtn = document.getElementById("view-safety");
+        var trainingBtn = document.getElementById("view-training");
+        var equipmentBtn = document.getElementById("view-equipment");
+        var patrolBtn = document.getElementById("view-patrol");
+
+        // Get the <span> elements that close the modals
+        var chainSpan = document.getElementsByClassName("close-modal")[0];
+        var meetLeadersSpan = document.getElementById("close-meet-leaders");
+        var pitSpan = document.getElementById("close-pit");
+        var forceSpan = document.getElementById("close-force");
+        var icsSpan = document.getElementById("close-ics");
+        var mirandaSpan = document.getElementById("close-miranda");
+        var safetySpan = document.getElementById("close-safety");
+        var trainingSpan = document.getElementById("close-training");
+        var equipmentSpan = document.getElementById("close-equipment");
+        var patrolSpan = document.getElementById("close-patrol");
+
+        // When the user clicks the buttons, open the respective modal 
+        chainBtn.onclick = function(event) {
+            event.preventDefault();
+            chainModal.classList.add('active');
+            chainModal.style.display = "block";
+        }
+        meetLeadersBtn.onclick = function(event) {
+            event.preventDefault();
+            meetLeadersModal.classList.add('active');
+            meetLeadersModal.style.display = "block";
+        }
+        pitBtn.onclick = function(event) {
+            event.preventDefault();
+            pitModal.classList.add('active');
+            pitModal.style.display = "block";
+        }
+        forceBtn.onclick = function(event) {
+            event.preventDefault();
+            forceModal.classList.add('active');
+            forceModal.style.display = "block";
+        }
+        icsBtn.onclick = function(event) {
+            event.preventDefault();
+            icsModal.classList.add('active');
+            icsModal.style.display = "block";
+        }
+        mirandaBtn.onclick = function(event) {
+            event.preventDefault();
+            mirandaModal.classList.add('active');
+            mirandaModal.style.display = "block";
+        }
+        safetyBtn.onclick = function(event) {
+            event.preventDefault();
+            safetyModal.classList.add('active');
+            safetyModal.style.display = "block";
+        }
+        trainingBtn.onclick = function(event) {
+            event.preventDefault();
+            trainingModal.classList.add('active');
+            trainingModal.style.display = "block";
+        }
+        equipmentBtn.onclick = function(event) {
+            event.preventDefault();
+            equipmentModal.classList.add('active');
+            equipmentModal.style.display = "block";
+        }
+        patrolBtn.onclick = function(event) {
+            event.preventDefault();
+            patrolModal.classList.add('active');
+            patrolModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        chainSpan.onclick = function() {
+            chainModal.classList.remove('active');
+            setTimeout(() => {
+                chainModal.style.display = "none";
+            }, 300);
+        }
+        meetLeadersSpan.onclick = function() {
+            meetLeadersModal.classList.remove('active');
+            setTimeout(() => {
+                meetLeadersModal.style.display = "none";
+            }, 300);
+        }
+        pitSpan.onclick = function() {
+            pitModal.classList.remove('active');
+            setTimeout(() => {
+                pitModal.style.display = "none";
+            }, 300);
+        }
+        forceSpan.onclick = function() {
+            forceModal.classList.remove('active');
+            setTimeout(() => {
+                forceModal.style.display = "none";
+            }, 300);
+        }
+        icsSpan.onclick = function() {
+            icsModal.classList.remove('active');
+            setTimeout(() => {
+                icsModal.style.display = "none";
+            }, 300);
+        }
+        mirandaSpan.onclick = function() {
+            mirandaModal.classList.remove('active');
+            setTimeout(() => {
+                mirandaModal.style.display = "none";
+            }, 300);
+        }
+        safetySpan.onclick = function() {
+            safetyModal.classList.remove('active');
+            setTimeout(() => {
+                safetyModal.style.display = "none";
+            }, 300);
+        }
+        trainingSpan.onclick = function() {
+            trainingModal.classList.remove('active');
+            setTimeout(() => {
+                trainingModal.style.display = "none";
+            }, 300);
+        }
+        equipmentSpan.onclick = function() {
+            equipmentModal.classList.remove('active');
+            setTimeout(() => {
+                equipmentModal.style.display = "none";
+            }, 300);
+        }
+        patrolSpan.onclick = function() {
+            patrolModal.classList.remove('active');
+            setTimeout(() => {
+                patrolModal.style.display = "none";
+            }, 300);
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == chainModal) {
+                chainModal.classList.remove('active');
+                setTimeout(() => {
+                    chainModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == meetLeadersModal) {
+                meetLeadersModal.classList.remove('active');
+                setTimeout(() => {
+                    meetLeadersModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == pitModal) {
+                pitModal.classList.remove('active');
+                setTimeout(() => {
+                    pitModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == forceModal) {
+                forceModal.classList.remove('active');
+                setTimeout(() => {
+                    forceModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == icsModal) {
+                icsModal.classList.remove('active');
+                setTimeout(() => {
+                    icsModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == mirandaModal) {
+                mirandaModal.classList.remove('active');
+                setTimeout(() => {
+                    mirandaModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == safetyModal) {
+                safetyModal.classList.remove('active');
+                setTimeout(() => {
+                    safetyModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == trainingModal) {
+                trainingModal.classList.remove('active');
+                setTimeout(() => {
+                    trainingModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == equipmentModal) {
+                equipmentModal.classList.remove('active');
+                setTimeout(() => {
+                    equipmentModal.style.display = "none";
+                }, 300);
+            }
+            if (event.target == patrolModal) {
+                patrolModal.classList.remove('active');
+                setTimeout(() => {
+                    patrolModal.style.display = "none";
+                }, 300);
+            }
+        }
+
+        // Scroll animation for cards
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.card');
+            const windowHeight = window.innerHeight;
+
+            cards.forEach(card => {
+                // Only animate if not already animated
+                if (card.classList.contains('animated')) return;
+                const position = card.getBoundingClientRect().top;
+                if (position < windowHeight - 100) {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                    card.classList.add('animated');
+                    // Remove animation property so it doesn't flicker on scroll
+                    card.style.animation = 'none';
+                }
             });
         }
-        // Add subtle hover effect to footer logo
-        const footerLogo = document.querySelector('.footer-logo');
-        if (footerLogo) {
-            footerLogo.addEventListener('mouseenter', () => {
-                footerLogo.style.transform = 'scale(1.15)';
-                footerLogo.style.boxShadow = '0 0 30px rgba(10, 43, 102, 0.9)';
-            });
-            footerLogo.addEventListener('mouseleave', () => {
-                footerLogo.style.transform = 'scale(1)';
-                footerLogo.style.boxShadow = '0 0 25px rgba(10, 43, 102, 0.7)';
-            });
-        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        // Initial check in case elements are already in view
+        window.addEventListener('load', animateOnScroll);
     </script>
 </body>
 </html>
